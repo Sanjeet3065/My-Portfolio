@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import gsap from 'gsap'
-import { ArrowDown, ArrowUpRight, Download, FileText, Github, Linkedin, Mail } from 'lucide-react'
+import { ArrowDown, ArrowUpRight, Download, FileText, Github, Linkedin, Mail, Share2 } from 'lucide-react'
 import { siteConfig, socialLinks } from '../../config/site'
 import { useAppReady } from '../../context/AppReadyContext'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 import { useSectionNavigation } from '../../hooks/useSectionNavigation'
+import { sharePortfolio } from '../../lib/share'
 import { Magnetic } from '../ui/Magnetic'
 import { SkillConstellation } from '../hero/SkillConstellation'
 
@@ -199,6 +200,16 @@ export function Hero() {
                   <Download className="h-3.5 w-3.5 text-muted transition-transform duration-300 group-hover:translate-y-0.5 group-hover:text-ember" />
                   <span className="hidden sm:inline">Download</span>
                 </a>
+
+                <button
+                  type="button"
+                  onClick={() => sharePortfolio()}
+                  aria-label="Share Portfolio"
+                  title="Share Portfolio"
+                  className="group relative grid h-8 w-8 place-items-center rounded-lg border border-line/15 bg-surface/70 text-muted transition-all duration-300 hover:border-ember/60 hover:bg-ember/[0.08] hover:text-ember hover:shadow-[0_0_16px_rgba(255,59,78,0.35)]"
+                >
+                  <Share2 className="h-3.5 w-3.5 transition-transform duration-300 group-hover:scale-110" />
+                </button>
               </div>
             </div>
           </div>

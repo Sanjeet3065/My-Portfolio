@@ -1,9 +1,12 @@
-import { ArrowUp, ArrowUpRight, Download } from 'lucide-react'
+import { useState } from 'react'
+import { ArrowUp, ArrowUpRight, Check, Copy, Download, Share2 } from 'lucide-react'
 import { siteConfig, socialLinks } from '../../config/site'
 import { scrollToTop } from '../../lib/scroll'
 import { useSectionNavigation } from '../../hooks/useSectionNavigation'
+import { copyShareText, sharePortfolio } from '../../lib/share'
 
 export function Footer() {
+  const [copiedLink, setCopiedLink] = useState(false)
   const { goToSection, goHome } = useSectionNavigation()
   const year = new Date().getFullYear()
 
@@ -104,6 +107,30 @@ export function Footer() {
                   <Download className="h-3 w-3 text-ember" />
                   <span>Download résumé</span>
                 </a>
+                <span className="text-line/20">/</span>
+                <button
+                  type="button"
+                  onClick={() => sharePortfolio()}
+                  aria-label="Share portfolio"
+                  className="inline-flex min-h-[40px] items-center gap-1.5 text-muted transition-colors hover:text-ember"
+                >
+                  <Share2 className="h-3 w-3 text-ember" />
+                  <span>Share</span>
+                </button>
+                <span className="text-line/20">/</span>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    await copyShareText()
+                    setCopiedLink(true)
+                    window.setTimeout(() => setCopiedLink(false), 2000)
+                  }}
+                  aria-label="Copy portfolio link"
+                  className="inline-flex min-h-[40px] items-center gap-1.5 text-muted transition-colors hover:text-ember"
+                >
+                  {copiedLink ? <Check className="h-3 w-3 text-ember" /> : <Copy className="h-3 w-3 text-ember" />}
+                  <span>{copiedLink ? 'Link copied!' : 'Copy link'}</span>
+                </button>
               </div>
             ) : null}
 

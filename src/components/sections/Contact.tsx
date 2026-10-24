@@ -10,10 +10,12 @@ import {
   Linkedin,
   Mail,
   MessageCircle,
+  Share2,
 } from 'lucide-react'
 import { siteConfig, socialLinks } from '../../config/site'
 import { scrollToTop } from '../../lib/scroll'
 import { useSectionNavigation } from '../../hooks/useSectionNavigation'
+import { copyShareText, getWhatsAppShareUrl, sharePortfolio } from '../../lib/share'
 import { Magnetic } from '../ui/Magnetic'
 import { Reveal } from '../ui/Reveal'
 import { ContactForm } from '../contact/ContactForm'
@@ -44,6 +46,8 @@ const SOCIAL_ICONS: Record<string, React.ComponentType<{ className?: string }>> 
 
 export function Contact() {
   const [copied, setCopied] = useState(false)
+  const [copiedLink, setCopiedLink] = useState(false)
+  const [shareFeedback, setShareFeedback] = useState<string | null>(null)
   const { goToSection } = useSectionNavigation()
   const email = siteConfig.email
 
@@ -55,6 +59,25 @@ export function Contact() {
       window.setTimeout(() => setCopied(false), 2200)
     } catch {
       window.location.href = `mailto:${email}`
+    }
+  }
+
+  const handleSharePortfolio = async () => {
+    const result = await sharePortfolio()
+    if (result === 'shared') {
+      setShareFeedback('Shared!')
+      window.setTimeout(() => setShareFeedback(null), 2500)
+    } else if (result === 'copied') {
+      setCopiedLink(true)
+      window.setTimeout(() => setCopiedLink(false), 2500)
+    }
+  }
+
+  const handleCopyLink = async () => {
+    const success = await copyShareText()
+    if (success) {
+      setCopiedLink(true)
+      window.setTimeout(() => setCopiedLink(false), 2500)
     }
   }
 
@@ -174,13 +197,50 @@ export function Contact() {
                     <ArrowUpRight className="h-4 w-4 text-muted transition-colors group-hover:text-ember" />
                   </span>
                 </a>
-                <button
-                  onClick={copyEmail}
-                  className="mt-5 inline-flex min-h-[44px] items-center gap-2 rounded-full border border-line/15 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.14em] text-muted transition-colors hover:border-ember/40 hover:text-ember sm:text-[9px] sm:tracking-[0.16em]"
-                >
-                  {copied ? <Check className="h-3.5 w-3.5 text-ember" /> : <Copy className="h-3.5 w-3.5" />}
-                  {copied ? 'Copied to clipboard' : 'Copy email'}
-                </button>
+                <div className="mt-5 flex flex-wrap items-center gap-2.5 sm:gap-3">
+                  <button
+                    type="button"
+                    onClick={copyEmail}
+                    className="inline-flex min-h-[42px] items-center gap-2 rounded-full border border-line/15 bg-surface/40 px-3.5 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted transition-colors hover:border-ember/40 hover:text-ember sm:text-[9px] sm:tracking-[0.16em]"
+                  >
+                    {copied ? <Check className="h-3.5 w-3.5 text-ember" /> : <Copy className="h-3.5 w-3.5" />}
+                    <span>{copied ? 'Copied email' : 'Copy email'}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleCopyLink}
+                    aria-label="Copy full portfolio link and details"
+                    title="Copy full portfolio link and description"
+                    className="inline-flex min-h-[42px] items-center gap-2 rounded-full border border-line/15 bg-surface/40 px-3.5 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-paper transition-all hover:border-ember/50 hover:bg-ember/[0.08] hover:text-ember sm:text-[9px] sm:tracking-[0.16em]"
+                  >
+                    {copiedLink ? <Check className="h-3.5 w-3.5 text-ember" /> : <Copy className="h-3.5 w-3.5 text-ember" />}
+                    <span>{copiedLink ? 'Link & details copied!' : 'Copy Link'}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleSharePortfolio}
+                    aria-label="Share portfolio via system share or WhatsApp"
+                    title="Share portfolio"
+                    className="inline-flex min-h-[42px] items-center gap-2 rounded-full border border-ember/35 bg-ember/[0.08] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-paper transition-all hover:border-ember/70 hover:bg-ember/15 hover:text-white sm:text-[9px] sm:tracking-[0.16em]"
+                  >
+                    <Share2 className="h-3.5 w-3.5 text-ember" />
+                    <span>{shareFeedback || 'Share Portfolio'}</span>
+                  </button>
+
+                  <a
+                    href={getWhatsAppShareUrl()}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    aria-label="Share directly on WhatsApp with full preview link"
+                    title="Share directly on WhatsApp"
+                    className="inline-flex min-h-[42px] items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/[0.08] px-3.5 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-emerald-400 transition-all hover:border-emerald-500/60 hover:bg-emerald-500/20 hover:text-emerald-300 sm:text-[9px] sm:tracking-[0.16em]"
+                  >
+                    <MessageCircle className="h-3.5 w-3.5 text-emerald-400" />
+                    <span>WhatsApp</span>
+                  </a>
+                </div>
 
                 {/* Direct-Delivery Contact Form */}
                 <ContactForm recipientEmail={email} />
