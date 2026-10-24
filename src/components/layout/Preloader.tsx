@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 import { siteConfig } from '../../config/site'
 
-const MIN_LOADING_MS = 5000
-const LOAD_SAFETY_MS = 8000
+const MIN_LOADING_MS = 3000
+const LOAD_SAFETY_MS = 5000
 
 export function Preloader({ onDone }: { onDone: () => void }) {
   const reduced = useReducedMotion()
