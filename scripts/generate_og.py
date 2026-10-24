@@ -106,12 +106,13 @@ def generate():
 
     final = comp.resize((1200, 630), Image.Resampling.LANCZOS).convert('RGB')
     
-    # Save og.jpg
+    # Save portfolio-og-v2.jpg
+    final.save(os.path.join(public_dir, 'portfolio-og-v2.jpg'), quality=90, optimize=True)
+    # Save og.jpg and og.png fallbacks
     final.save(os.path.join(public_dir, 'og.jpg'), quality=90, optimize=True)
-    # Save og.png
     final.save(os.path.join(public_dir, 'og.png'), optimize=True)
     
-    print('Generated public/og.jpg and public/og.png successfully!')
+    print('Generated public/portfolio-og-v2.jpg, og.jpg and og.png successfully!')
 
 if __name__ == '__main__':
     generate()
