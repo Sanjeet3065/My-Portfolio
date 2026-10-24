@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# After deploying, add the full public URL of your sitemap below:
+# Sitemap: https://your-domain.com/sitemap.xml
