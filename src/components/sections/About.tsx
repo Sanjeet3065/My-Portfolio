@@ -200,8 +200,8 @@ export function About() {
           </Reveal>
 
           {/* Right Column: Clean Box-Free View Integrated Directly Into the Dark Canvas */}
-          <Reveal delay={80} className="h-full [&>div]:h-full">
-            <div className="flex h-full flex-col justify-between">
+          <Reveal delay={80} className="h-full [&>div]:h-full min-w-0 w-full">
+            <div className="flex h-full flex-col justify-between min-w-0 w-full">
               {/* Minimal Clean Tab Navigation - Directly on Canvas with Underline Indicator */}
               <div
                 role="tablist"
@@ -270,7 +270,7 @@ export function About() {
               </div>
 
               {/* Tab Content Body - Directly on Background Canvas */}
-              <div className="flex flex-1 flex-col pt-5 sm:pt-6">
+              <div className="flex flex-1 flex-col pt-5 sm:pt-6 min-w-0 w-full">
                 {activeTab === 'bio' && (
                   <div key="bio" className="flex flex-1 flex-col space-y-4.5 sm:space-y-5">
                     <div>
@@ -422,18 +422,18 @@ export function About() {
                 )}
 
                 {activeTab === 'tech' && (
-                  <div key="tech" className="flex flex-1 flex-col space-y-4.5 sm:space-y-5">
+                  <div key="tech" className="flex flex-1 flex-col space-y-4.5 sm:space-y-5 min-w-0 w-full">
                     <div>
                       <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-ember">
-                        <Code2 className="h-3.5 w-3.5 text-ember" />
+                        <Code2 className="h-3.5 w-3.5 text-ember shrink-0" />
                         <span>Tech Focus &amp; Competencies</span>
                       </div>
 
-                      <h3 className="mt-2.5 font-display text-xl font-bold leading-snug tracking-tight text-paper sm:text-2xl lg:text-[1.75rem]">
+                      <h3 className="mt-2.5 font-display text-xl font-bold leading-snug tracking-tight text-paper sm:text-2xl lg:text-[1.75rem] break-words">
                         Engineering solutions through code, logic &amp; architecture.
                       </h3>
 
-                      <p className="mt-3 text-xs sm:text-sm leading-relaxed text-muted">
+                      <p className="mt-3 text-xs sm:text-sm leading-relaxed text-muted break-words">
                         Problem-solving with Java &amp; Data Structures, paired with engineering production-ready, full-stack web applications.
                       </p>
                     </div>
@@ -445,23 +445,23 @@ export function About() {
                           <Trophy className="h-3.5 w-3.5" />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <div className="flex items-center justify-between gap-2">
-                            <h4 className="font-display text-sm font-semibold tracking-tight text-paper sm:text-base">
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
+                            <h4 className="font-display text-sm font-semibold tracking-tight text-paper sm:text-base break-words">
                               Java &amp; Algorithmic DSA
                             </h4>
-                            <span className="font-mono text-[9px] uppercase tracking-wider text-ember">
+                            <span className="font-mono text-[9px] uppercase tracking-wider text-ember shrink-0 self-start sm:self-auto">
                               35+ Solved · Java 17
                             </span>
                           </div>
-                          <p className="mt-1 text-xs text-muted leading-relaxed sm:text-sm">
+                          <p className="mt-1 text-xs text-muted leading-relaxed sm:text-sm break-words">
                             Daily problem solving across Arrays, Two Pointers, Linked Lists, Trees, and DP with Big-O complexity analysis.
                           </p>
-                          <div className="mt-1.5 flex flex-wrap gap-x-2.5 gap-y-1 font-mono text-[10px] text-ember/85">
-                            <span># Java 17</span>
-                            <span># DataStructures</span>
-                            <span># Algorithms</span>
-                            <span># TimeSpaceComplexity</span>
-                            <span># LeetCodeDaily</span>
+                          <div className="mt-2 flex flex-wrap gap-x-2 gap-y-1.5 font-mono text-[10px] text-ember/85">
+                            <span className="whitespace-nowrap"># Java 17</span>
+                            <span className="whitespace-nowrap"># DataStructures</span>
+                            <span className="whitespace-nowrap"># Algorithms</span>
+                            <span className="whitespace-nowrap"># TimeSpaceComplexity</span>
+                            <span className="whitespace-nowrap"># LeetCodeDaily</span>
                           </div>
                         </div>
                       </div>
@@ -471,25 +471,25 @@ export function About() {
                           <Layers className="h-3.5 w-3.5" />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <div className="flex items-center justify-between gap-2">
-                            <h4 className="font-display text-sm font-semibold tracking-tight text-paper sm:text-base">
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
+                            <h4 className="font-display text-sm font-semibold tracking-tight text-paper sm:text-base break-words">
                               Full-Stack Web Engineering (MERN)
                             </h4>
-                            <span className="font-mono text-[9px] uppercase tracking-wider text-signal">
+                            <span className="font-mono text-[9px] uppercase tracking-wider text-signal shrink-0 self-start sm:self-auto">
                               React 18 · Node.js
                             </span>
                           </div>
-                          <p className="mt-1 text-xs text-muted leading-relaxed sm:text-sm">
+                          <p className="mt-1 text-xs text-muted leading-relaxed sm:text-sm break-words">
                             Building modern SPAs with React and Tailwind CSS, backed by Node.js/Express REST APIs, JWT auth, and MongoDB.
                           </p>
-                          <div className="mt-1.5 flex flex-wrap gap-x-2.5 gap-y-1 font-mono text-[10px] text-signal/85">
-                            <span># React.js</span>
-                            <span># Node.js</span>
-                            <span># Express</span>
-                            <span># MongoDB</span>
-                            <span># RESTfulAPIs</span>
-                            <span># JWTAuth</span>
-                            <span># TailwindCSS</span>
+                          <div className="mt-2 flex flex-wrap gap-x-2 gap-y-1.5 font-mono text-[10px] text-signal/85">
+                            <span className="whitespace-nowrap"># React.js</span>
+                            <span className="whitespace-nowrap"># Node.js</span>
+                            <span className="whitespace-nowrap"># Express</span>
+                            <span className="whitespace-nowrap"># MongoDB</span>
+                            <span className="whitespace-nowrap"># RESTfulAPIs</span>
+                            <span className="whitespace-nowrap"># JWTAuth</span>
+                            <span className="whitespace-nowrap"># TailwindCSS</span>
                           </div>
                         </div>
                       </div>
@@ -499,23 +499,23 @@ export function About() {
                           <Cpu className="h-3.5 w-3.5" />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <div className="flex items-center justify-between gap-2">
-                            <h4 className="font-display text-sm font-semibold tracking-tight text-paper sm:text-base">
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
+                            <h4 className="font-display text-sm font-semibold tracking-tight text-paper sm:text-base break-words">
                               Core Computer Science &amp; Cloud Systems
                             </h4>
-                            <span className="font-mono text-[9px] uppercase tracking-wider text-accent">
+                            <span className="font-mono text-[9px] uppercase tracking-wider text-accent shrink-0 self-start sm:self-auto">
                               DBMS · OS · AWS
                             </span>
                           </div>
-                          <p className="mt-1 text-xs text-muted leading-relaxed sm:text-sm">
+                          <p className="mt-1 text-xs text-muted leading-relaxed sm:text-sm break-words">
                             Core foundation in DBMS (normalization, SQL, ACID), Operating Systems, Computer Networks, and Cloud AWS.
                           </p>
-                          <div className="mt-1.5 flex flex-wrap gap-x-2.5 gap-y-1 font-mono text-[10px] text-accent/85">
-                            <span># DBMS &amp; SQL</span>
-                            <span># OperatingSystems</span>
-                            <span># ComputerNetworks</span>
-                            <span># CloudAWS</span>
-                            <span># GitVersionControl</span>
+                          <div className="mt-2 flex flex-wrap gap-x-2 gap-y-1.5 font-mono text-[10px] text-accent/85">
+                            <span className="whitespace-nowrap"># DBMS &amp; SQL</span>
+                            <span className="whitespace-nowrap"># OperatingSystems</span>
+                            <span className="whitespace-nowrap"># ComputerNetworks</span>
+                            <span className="whitespace-nowrap"># CloudAWS</span>
+                            <span className="whitespace-nowrap"># GitVersionControl</span>
                           </div>
                         </div>
                       </div>
@@ -523,24 +523,26 @@ export function About() {
 
                     {/* In-Progress Exploration Strip */}
                     <div className="rounded border border-line/10 bg-white/[0.02] p-3 text-xs font-mono">
-                      <div className="flex items-center gap-2 text-paper">
-                        <Sparkles className="h-3.5 w-3.5 text-ember shrink-0" />
-                        <span className="text-ember font-medium">Currently Exploring:</span>
-                        <span className="text-muted truncate">
+                      <div className="flex flex-col sm:flex-row sm:items-start gap-1.5 sm:gap-2 text-paper">
+                        <div className="flex items-center gap-1.5 shrink-0 text-ember font-medium">
+                          <Sparkles className="h-3.5 w-3.5 text-ember shrink-0" />
+                          <span className="whitespace-nowrap">Currently Exploring:</span>
+                        </div>
+                        <span className="text-muted leading-relaxed break-words flex-1">
                           Graph Algorithms (BFS/DFS, Dijkstra), TypeScript Generics, and Docker containerization.
                         </span>
                       </div>
                     </div>
 
                     {/* Footer Row */}
-                    <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line/10 pt-4 text-xs font-mono">
-                      <span className="text-muted">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-line/10 pt-4 text-xs font-mono">
+                      <span className="text-muted text-[11px] sm:text-xs">
                         Inspect live deployments &amp; project architectures
                       </span>
                       <button
                         type="button"
                         onClick={() => goToSection('projects')}
-                        className="group inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-paper transition-colors hover:text-ember"
+                        className="group inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-paper transition-colors hover:text-ember self-start sm:self-auto"
                       >
                         <span>Explore Projects</span>
                         <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
