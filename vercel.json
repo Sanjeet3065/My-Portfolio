@@ -1,4 +1,5 @@
 {
+  "name": "sanjeet-chauhan",
   "rewrites": [
     {
       "source": "/api/contact",
@@ -10,3 +11,4 @@
     }
   ]
 }
+
