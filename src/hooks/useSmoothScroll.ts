@@ -21,7 +21,7 @@ export function useSmoothScroll(disabled: boolean) {
 
     const update = (time: number) => lenis.raf(time * 1000)
     gsap.ticker.add(update)
-    gsap.ticker.lagSmoothing(0)
+    gsap.ticker.lagSmoothing(500, 33)
 
     const refresh = window.setTimeout(() => ScrollTrigger.refresh(), 400)
 

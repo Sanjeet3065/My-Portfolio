@@ -184,9 +184,13 @@ export function Playground() {
       window.cancelAnimationFrame(frame)
     }
 
+    let canvasRect = canvas.getBoundingClientRect()
+    const updateCanvasRect = () => {
+      canvasRect = canvas.getBoundingClientRect()
+    }
+
     const getPosition = (event: PointerEvent) => {
-      const rect = canvas.getBoundingClientRect()
-      return { x: event.clientX - rect.left, y: event.clientY - rect.top }
+      return { x: event.clientX - canvasRect.left, y: event.clientY - canvasRect.top }
     }
 
     const onPointerMove = (event: PointerEvent) => {
@@ -203,6 +207,7 @@ export function Playground() {
 
     const onPointerDown = (event: PointerEvent) => {
       if (!event.isPrimary) return
+      updateCanvasRect()
       const position = getPosition(event)
       pointer.x = position.x
       pointer.y = position.y
@@ -241,18 +246,27 @@ export function Playground() {
     }
 
     resize()
-    const resizeObserver = new ResizeObserver(resize)
+    updateCanvasRect()
+    const resizeObserver = new ResizeObserver(() => {
+      resize()
+      updateCanvasRect()
+    })
     resizeObserver.observe(container)
 
     const intersectionObserver = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) start()
-        else stop()
+        if (entry.isIntersecting) {
+          updateCanvasRect()
+          start()
+        } else {
+          stop()
+        }
       },
       { threshold: 0.05 },
     )
     intersectionObserver.observe(container)
 
+    canvas.addEventListener('pointerenter', updateCanvasRect)
     canvas.addEventListener('pointermove', onPointerMove)
     canvas.addEventListener('pointerleave', onPointerLeave)
     canvas.addEventListener('pointerdown', onPointerDown)
@@ -265,6 +279,7 @@ export function Playground() {
       stop()
       resizeObserver.disconnect()
       intersectionObserver.disconnect()
+      canvas.removeEventListener('pointerenter', updateCanvasRect)
       canvas.removeEventListener('pointermove', onPointerMove)
       canvas.removeEventListener('pointerleave', onPointerLeave)
       canvas.removeEventListener('pointerdown', onPointerDown)

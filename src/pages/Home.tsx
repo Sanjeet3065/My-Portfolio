@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Hero } from '../components/sections/Hero'
 import { SkillsMarquee } from '../components/sections/SkillsMarquee'
 import { About } from '../components/sections/About'
@@ -9,19 +10,32 @@ import { WinningMoments } from '../components/sections/WinningMoments'
 import { Playground } from '../components/sections/Playground'
 import { Contact } from '../components/sections/Contact'
 
-export default function Home() {
+const MemoHero = memo(Hero)
+const MemoSkillsMarquee = memo(SkillsMarquee)
+const MemoAbout = memo(About)
+const MemoSkills = memo(Skills)
+const MemoProjects = memo(Projects)
+const MemoJourney = memo(Journey)
+const MemoAchievements = memo(Achievements)
+const MemoWinningMoments = memo(WinningMoments)
+const MemoPlayground = memo(Playground)
+const MemoContact = memo(Contact)
+
+function Home() {
   return (
     <>
-      <Hero />
-      <SkillsMarquee />
-      <About />
-      <Skills />
-      <Projects />
-      <Journey />
-      <Achievements />
-      <WinningMoments />
-      <Playground />
-      <Contact />
+      <MemoHero />
+      <MemoSkillsMarquee />
+      <MemoAbout />
+      <MemoSkills />
+      <MemoProjects />
+      <MemoJourney />
+      <MemoAchievements />
+      <MemoWinningMoments />
+      <MemoPlayground />
+      <MemoContact />
     </>
   )
 }
+
+export default memo(Home)

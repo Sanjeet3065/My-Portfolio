@@ -49,8 +49,13 @@ export function SkillsMarquee() {
 
     let frame = 0
     let previous = performance.now()
+    let isVisible = false
 
     const tick = (now: number) => {
+      if (!isVisible) {
+        frame = 0
+        return
+      }
       const delta = Math.min((now - previous) / 1000, 0.05)
       previous = now
       const width = loopWidthRef.current
@@ -66,11 +71,27 @@ export function SkillsMarquee() {
       frame = requestAnimationFrame(tick)
     }
 
-    frame = requestAnimationFrame(tick)
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting
+        if (isVisible) {
+          previous = performance.now()
+          if (!frame) {
+            frame = requestAnimationFrame(tick)
+          }
+        } else if (frame) {
+          cancelAnimationFrame(frame)
+          frame = 0
+        }
+      },
+      { rootMargin: '300px 0px' },
+    )
+    io.observe(track)
 
     return () => {
-      cancelAnimationFrame(frame)
+      if (frame) cancelAnimationFrame(frame)
       observer.disconnect()
+      io.disconnect()
     }
   }, [reduced])
 

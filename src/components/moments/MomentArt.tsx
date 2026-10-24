@@ -24,6 +24,7 @@ export function MomentArt({ moment, index, expanded = false }: MomentArtProps) {
           alt={moment.alt}
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] ease-editorial group-hover:scale-[1.04]"
           loading="lazy"
+          decoding="async"
         />
       ) : (
         <svg

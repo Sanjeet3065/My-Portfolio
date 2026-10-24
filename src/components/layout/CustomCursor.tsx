@@ -1,13 +1,21 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
+
+const ACTIVE_CLASSES = [
+  'h-16',
+  'w-16',
+  'border-ember/70',
+  'bg-ember/10',
+  'shadow-[0_0_36px_-6px_rgba(255,59,78,0.65)]',
+]
+const INACTIVE_CLASSES = ['h-8', 'w-8', 'border-paper/30']
 
 export function CustomCursor() {
   const reduced = useReducedMotion()
   const dotRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
+  const ringInnerRef = useRef<HTMLDivElement>(null)
   const labelRef = useRef<HTMLSpanElement>(null)
-  const [active, setActive] = useState(false)
-  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     if (reduced) return
@@ -15,44 +23,104 @@ export function CustomCursor() {
 
     const dot = dotRef.current
     const ring = ringRef.current
+    const ringInner = ringInnerRef.current
     const label = labelRef.current
-    if (!dot || !ring || !label) return
+    if (!dot || !ring || !ringInner || !label) return
 
     const position = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
     const follower = { ...position }
     let frame = 0
-    let shown = false
+    let isLooping = false
+    let isVisible = false
+    let isActive = false
+
+    const setVisibleDOM = (visible: boolean) => {
+      isVisible = visible
+      if (visible) {
+        dot.style.opacity = isActive ? '0' : '1'
+        ring.style.opacity = '1'
+        document.documentElement.classList.add('has-custom-cursor')
+      } else {
+        dot.style.opacity = '0'
+        ring.style.opacity = '0'
+        document.documentElement.classList.remove('has-custom-cursor')
+      }
+    }
+
+    const setActiveDOM = (active: boolean, nextLabel = '') => {
+      isActive = active
+      if (active) {
+        ringInner.classList.remove(...INACTIVE_CLASSES)
+        ringInner.classList.add(...ACTIVE_CLASSES)
+        label.classList.remove('opacity-0')
+        label.classList.add('opacity-100')
+        label.textContent = nextLabel
+        if (isVisible) dot.style.opacity = '0'
+      } else {
+        ringInner.classList.remove(...ACTIVE_CLASSES)
+        ringInner.classList.add(...INACTIVE_CLASSES)
+        label.classList.remove('opacity-100')
+        label.classList.add('opacity-0')
+        label.textContent = ''
+        if (isVisible) dot.style.opacity = '1'
+      }
+    }
+
+    const loop = () => {
+      const dx = position.x - follower.x
+      const dy = position.y - follower.y
+      follower.x += dx * 0.16
+      follower.y += dy * 0.16
+
+      dot.style.transform = `translate3d(${position.x}px, ${position.y}px, 0) translate(-50%, -50%)`
+      ring.style.transform = `translate3d(${follower.x}px, ${follower.y}px, 0) translate(-50%, -50%)`
+
+      // If follower is still catching up, keep looping; otherwise sleep until next movement
+      if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+        frame = window.requestAnimationFrame(loop)
+      } else {
+        follower.x = position.x
+        follower.y = position.y
+        ring.style.transform = `translate3d(${position.x}px, ${position.y}px, 0) translate(-50%, -50%)`
+        isLooping = false
+      }
+    }
+
+    const wakeLoop = () => {
+      if (!isLooping) {
+        isLooping = true
+        frame = window.requestAnimationFrame(loop)
+      }
+    }
 
     const show = (clientX?: number, clientY?: number) => {
       if (typeof clientX === 'number' && typeof clientY === 'number') {
         position.x = clientX
         position.y = clientY
-        if (!shown) {
+        if (!isVisible) {
           // Snap follower on initial reveal or re-entry so ring doesn't fly across screen
           follower.x = clientX
           follower.y = clientY
+          dot.style.transform = `translate3d(${clientX}px, ${clientY}px, 0) translate(-50%, -50%)`
+          ring.style.transform = `translate3d(${clientX}px, ${clientY}px, 0) translate(-50%, -50%)`
         }
       }
-      if (!shown) {
-        shown = true
-        setVisible(true)
-        document.documentElement.classList.add('has-custom-cursor')
+      if (!isVisible) {
+        setVisibleDOM(true)
       }
+      wakeLoop()
     }
 
     const hide = () => {
-      shown = false
-      setVisible(false)
-      setActive(false)
-      if (label) label.textContent = ''
-      document.documentElement.classList.remove('has-custom-cursor')
+      setVisibleDOM(false)
+      setActiveDOM(false)
     }
 
-    const onMove = (event: PointerEvent | MouseEvent) => {
+    const onMove = (event: PointerEvent) => {
       show(event.clientX, event.clientY)
     }
 
-    const onEnter = (event: PointerEvent | MouseEvent) => {
+    const onEnter = (event: PointerEvent) => {
       show(event.clientX, event.clientY)
     }
 
@@ -61,9 +129,8 @@ export function CustomCursor() {
         'a, button, [data-cursor-label], [role="button"]',
       )
       if (target) {
-        setActive(true)
         const nextLabel = target.dataset.cursorLabel ?? ''
-        label.textContent = nextLabel
+        setActiveDOM(true, nextLabel)
       }
     }
 
@@ -72,8 +139,7 @@ export function CustomCursor() {
         'a, button, [data-cursor-label], [role="button"]',
       )
       if (!related) {
-        setActive(false)
-        label.textContent = ''
+        setActiveDOM(false)
       }
     }
 
@@ -82,50 +148,31 @@ export function CustomCursor() {
     }
 
     const onFocus = () => {
-      // Clear any stuck hover states when returning to window
-      setActive(false)
-      if (label) label.textContent = ''
+      setActiveDOM(false)
     }
 
     const onVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        setActive(false)
-        if (label) label.textContent = ''
+        setActiveDOM(false)
       } else {
         hide()
       }
     }
 
-    const loop = () => {
-      follower.x += (position.x - follower.x) * 0.16
-      follower.y += (position.y - follower.y) * 0.16
-      dot.style.transform = `translate3d(${position.x}px, ${position.y}px, 0) translate(-50%, -50%)`
-      ring.style.transform = `translate3d(${follower.x}px, ${follower.y}px, 0) translate(-50%, -50%)`
-      frame = window.requestAnimationFrame(loop)
-    }
-
     window.addEventListener('pointermove', onMove, { passive: true })
-    window.addEventListener('mousemove', onMove, { passive: true })
     document.documentElement.addEventListener('pointerenter', onEnter, { passive: true })
-    document.documentElement.addEventListener('mouseenter', onEnter, { passive: true })
     document.documentElement.addEventListener('pointerleave', hide)
-    document.documentElement.addEventListener('mouseleave', hide)
     document.addEventListener('pointerover', onOver, { passive: true })
     document.addEventListener('pointerout', onOut, { passive: true })
     window.addEventListener('blur', onBlur)
     window.addEventListener('focus', onFocus)
     document.addEventListener('visibilitychange', onVisibilityChange)
 
-    frame = window.requestAnimationFrame(loop)
-
     return () => {
-      window.cancelAnimationFrame(frame)
+      if (frame) window.cancelAnimationFrame(frame)
       window.removeEventListener('pointermove', onMove)
-      window.removeEventListener('mousemove', onMove)
       document.documentElement.removeEventListener('pointerenter', onEnter)
-      document.documentElement.removeEventListener('mouseenter', onEnter)
       document.documentElement.removeEventListener('pointerleave', hide)
-      document.documentElement.removeEventListener('mouseleave', hide)
       document.removeEventListener('pointerover', onOver)
       document.removeEventListener('pointerout', onOut)
       window.removeEventListener('blur', onBlur)
@@ -142,32 +189,23 @@ export function CustomCursor() {
       <div
         ref={dotRef}
         aria-hidden="true"
-        className={`custom-cursor pointer-events-none fixed left-0 top-0 z-[9999] h-1.5 w-1.5 rounded-full bg-ember shadow-[0_0_12px_rgba(255,59,78,0.95)] transition-opacity duration-200 ${
-          visible && !active ? 'opacity-100' : 'opacity-0'
-        }`}
+        className="custom-cursor pointer-events-none fixed left-0 top-0 z-[9999] h-1.5 w-1.5 rounded-full bg-ember shadow-[0_0_12px_rgba(255,59,78,0.95)] opacity-0 transition-opacity duration-200 will-change-transform"
       />
       <div
         ref={ringRef}
         aria-hidden="true"
-        className="custom-cursor pointer-events-none fixed left-0 top-0 z-[9998] transition-opacity duration-200"
-        style={{ opacity: visible ? 1 : 0 }}
+        className="custom-cursor pointer-events-none fixed left-0 top-0 z-[9998] opacity-0 transition-opacity duration-200 will-change-transform"
       >
         <div
-          className={`flex items-center justify-center rounded-full border transition-all duration-300 ease-editorial ${
-            active
-              ? 'h-16 w-16 border-ember/70 bg-ember/10 shadow-[0_0_36px_-6px_rgba(255,59,78,0.65)]'
-              : 'h-8 w-8 border-paper/30'
-          }`}
+          ref={ringInnerRef}
+          className="flex items-center justify-center rounded-full border border-paper/30 h-8 w-8 transition-all duration-300 ease-editorial"
         >
           <span
             ref={labelRef}
-            className={`font-mono text-[8px] uppercase tracking-[0.18em] text-paper transition-opacity duration-200 ${
-              active ? 'opacity-100' : 'opacity-0'
-            }`}
+            className="font-mono text-[8px] uppercase tracking-[0.18em] text-paper opacity-0 transition-opacity duration-200"
           />
         </div>
       </div>
     </>
   )
 }
-

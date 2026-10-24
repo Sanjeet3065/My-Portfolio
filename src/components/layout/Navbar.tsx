@@ -96,63 +96,72 @@ export function Navbar() {
         // 2. Separate Directional Hide/Reveal strictly AFTER the Technology Marquee threshold
         let lastScrollY = window.scrollY
         let isHidden = false
+        let cachedThreshold = 0
 
-        const getThreshold = () => {
+        const updateThreshold = () => {
           if (marqueeSection) {
-            return marqueeSection.offsetTop - 85
+            cachedThreshold = marqueeSection.offsetTop - 85
+          } else if (homeSection) {
+            cachedThreshold = homeSection.offsetTop + homeSection.offsetHeight - 85
           }
-          return homeSection.offsetTop + homeSection.offsetHeight - 85
         }
+        updateThreshold()
+        ScrollTrigger.addEventListener('refresh', updateThreshold)
 
+        let ticking = false
         const handleScroll = () => {
-          if (!visibilityRef.current) return
-          const currentScrollY = window.scrollY
-          const threshold = getThreshold()
+          if (ticking) return
+          ticking = true
+          window.requestAnimationFrame(() => {
+            ticking = false
+            if (!visibilityRef.current) return
+            const currentScrollY = window.scrollY
 
-          // While inside the Home / shrink range: ALWAYS fully visible
-          if (currentScrollY <= threshold) {
-            if (isHidden) {
-              gsap.to(visibilityRef.current, {
-                yPercent: 0,
-                opacity: 1,
-                duration: 0.35,
-                ease: 'power3.out',
-                overwrite: 'auto',
-              })
-              isHidden = false
+            // While inside the Home / shrink range: ALWAYS fully visible
+            if (currentScrollY <= cachedThreshold) {
+              if (isHidden) {
+                gsap.to(visibilityRef.current, {
+                  yPercent: 0,
+                  opacity: 1,
+                  duration: 0.35,
+                  ease: 'power3.out',
+                  overwrite: 'auto',
+                })
+                isHidden = false
+              }
+              lastScrollY = currentScrollY
+              return
             }
-            lastScrollY = currentScrollY
-            return
-          }
 
-          // Past the Technology Marquee threshold: hide on downward scroll, reveal on upward scroll
-          const delta = currentScrollY - lastScrollY
-          const SCROLL_TOLERANCE = 6
+            // Past the Technology Marquee threshold: hide on downward scroll, reveal on upward scroll
+            const delta = currentScrollY - lastScrollY
+            const SCROLL_TOLERANCE = 6
 
-          if (Math.abs(delta) > SCROLL_TOLERANCE) {
-            if (delta > 0 && !isHidden) {
-              // Scrolling down -> smoothly slide upward and hide (350-500ms)
-              gsap.to(visibilityRef.current, {
-                yPercent: -140,
-                opacity: 0,
-                duration: 0.42,
-                ease: 'power3.inOut',
-                overwrite: 'auto',
-              })
-              isHidden = true
-            } else if (delta < 0 && isHidden) {
-              // Scrolling up -> smoothly slide down and reveal compact floating jelly glass
-              gsap.to(visibilityRef.current, {
-                yPercent: 0,
-                opacity: 1,
-                duration: 0.35,
-                ease: 'power3.out',
-                overwrite: 'auto',
-              })
-              isHidden = false
+            if (Math.abs(delta) > SCROLL_TOLERANCE) {
+              if (delta > 0 && !isHidden) {
+                // Scrolling down -> smoothly slide upward and hide (350-500ms)
+                gsap.to(visibilityRef.current, {
+                  yPercent: -140,
+                  opacity: 0,
+                  duration: 0.42,
+                  ease: 'power3.inOut',
+                  overwrite: 'auto',
+                })
+                isHidden = true
+              } else if (delta < 0 && isHidden) {
+                // Scrolling up -> smoothly slide down and reveal compact floating jelly glass
+                gsap.to(visibilityRef.current, {
+                  yPercent: 0,
+                  opacity: 1,
+                  duration: 0.35,
+                  ease: 'power3.out',
+                  overwrite: 'auto',
+                })
+                isHidden = false
+              }
+              lastScrollY = currentScrollY
             }
-            lastScrollY = currentScrollY
-          }
+          })
         }
 
         window.addEventListener('scroll', handleScroll, { passive: true })
@@ -176,10 +185,15 @@ export function Navbar() {
       }
     })
 
-    const handleResize = () => ScrollTrigger.refresh()
+    let resizeTimer = 0
+    const handleResize = () => {
+      window.clearTimeout(resizeTimer)
+      resizeTimer = window.setTimeout(() => ScrollTrigger.refresh(), 150)
+    }
     window.addEventListener('resize', handleResize, { passive: true })
 
     return () => {
+      window.clearTimeout(resizeTimer)
       window.removeEventListener('resize', handleResize)
       ctx.revert()
     }

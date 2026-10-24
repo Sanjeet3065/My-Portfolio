@@ -1,4 +1,4 @@
-import { useId } from 'react'
+import { memo, useId } from 'react'
 import type { ArtworkVariant } from '../../types'
 
 interface ProjectArtworkProps {
@@ -14,7 +14,7 @@ const PALETTES = {
   ember: { primary: '#FF3B4E', secondary: '#8B5CF6', ember: '#38BDF8' },
 }
 
-export function ProjectArtwork({ variant, accent, label, className = '' }: ProjectArtworkProps) {
+export const ProjectArtwork = memo(function ProjectArtwork({ variant, accent, label, className = '' }: ProjectArtworkProps) {
   const rawId = useId()
   const uid = rawId.replace(/[^a-zA-Z0-9]/g, '')
   const palette = PALETTES[accent]
@@ -81,7 +81,7 @@ export function ProjectArtwork({ variant, accent, label, className = '' }: Proje
       <rect x="0.5" y="0.5" width="799" height="499" fill="none" stroke="rgba(255,255,255,0.08)" />
     </svg>
   )
-}
+})
 
 type Palette = (typeof PALETTES)['violet']
 type ArtProps = { uid: string; palette: Palette }

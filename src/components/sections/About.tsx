@@ -92,6 +92,8 @@ export function About() {
                       <img
                         src={siteConfig.profileImage}
                         alt={`Portrait of ${siteConfig.name}`}
+                        loading="eager"
+                        decoding="async"
                         className="absolute bottom-0 left-1/2 h-[87%] w-auto max-w-none -translate-x-1/2 object-contain drop-shadow-[0_18px_44px_rgba(0,0,0,0.6)]"
                       />
 
