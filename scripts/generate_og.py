@@ -54,48 +54,38 @@ def generate():
     n_bbox = text_draw.textbbox((0, 0), name, font=font_name)
     ntw = n_bbox[2] - n_bbox[0]
     nth = n_bbox[3] - n_bbox[1]
-    y_name = 570
+    y_name = 565
 
     for off in range(4, 25, 5):
         glow_draw.text((cx - ntw//2, y_name), name, font=font_name, fill=(255, 45, 65, 50))
     text_draw.text((cx - ntw//2, y_name), name, font=font_name, fill=(255, 255, 255, 255))
 
-    # Role
-    role = 'FULL STACK DEVELOPER  |  JAVA & DSA'
+    # Subtitle: FULL STACK DEVELOPER
+    role = 'FULL STACK DEVELOPER'
     r_bbox = text_draw.textbbox((0, 0), role, font=font_role)
     rtw = r_bbox[2] - r_bbox[0]
     rth = r_bbox[3] - r_bbox[1]
-    y_role = 730
+    y_role = 725
 
-    glow_draw.text((cx - rtw//2, y_role), role, font=font_role, fill=(255, 50, 75, 140))
+    glow_draw.text((cx - rtw//2, y_role), role, font=font_role, fill=(255, 50, 75, 150))
     text_draw.text((cx - rtw//2, y_role), role, font=font_role, fill=(255, 95, 115, 255))
 
-    # Pills
-    pills = ['Java', 'DSA', 'React', 'Node.js', 'Next.js']
-    pill_pads_h = 36
-    pill_h = 68
-    pill_gap = 22
+    # Supporting Text pill: Java • DSA • MERN Stack
+    pill_str = 'Java   •   DSA   •   MERN Stack'
+    font_pill = ImageFont.truetype(r'C:\Windows\Fonts\segoeuib.ttf', 38)
+    pb = text_draw.textbbox((0, 0), pill_str, font=font_pill)
+    ptw = pb[2] - pb[0]
+    pth = pb[3] - pb[1]
 
-    pill_widths = []
-    for p in pills:
-        pb = text_draw.textbbox((0, 0), p, font=font_badge)
-        pill_widths.append((pb[2] - pb[0]) + pill_pads_h * 2)
+    pill_pad_x = 54
+    pill_h = 76
+    pill_w = ptw + pill_pad_x * 2
+    pill_x = cx - pill_w // 2
+    y_pill = 835
 
-    total_pills_w = sum(pill_widths) + pill_gap * (len(pills) - 1)
-    start_x = cx - total_pills_w // 2
-    y_pills = 850
-
-    curr_x = start_x
-    for i, p in enumerate(pills):
-        pw = pill_widths[i]
-        pb = text_draw.textbbox((0, 0), p, font=font_badge)
-        ptw = pb[2] - pb[0]
-        pth = pb[3] - pb[1]
-        
-        art_draw.rounded_rectangle([curr_x, y_pills, curr_x + pw, y_pills + pill_h], 
-                                   radius=pill_h//2, fill=(18, 16, 28, 225), outline=(255, 60, 80, 160), width=3)
-        text_draw.text((curr_x + (pw - ptw)//2, y_pills + (pill_h - pth)//2 - 4), p, font=font_badge, fill=(235, 240, 250, 245))
-        curr_x += pw + pill_gap
+    art_draw.rounded_rectangle([pill_x, y_pill, pill_x + pill_w, y_pill + pill_h],
+                               radius=pill_h//2, fill=(16, 14, 26, 235), outline=(255, 59, 78, 175), width=3)
+    text_draw.text((pill_x + pill_pad_x, y_pill + (pill_h - pth)//2 - 4), pill_str, font=font_pill, fill=(240, 243, 250, 255))
 
     glow_layer = glow_layer.filter(ImageFilter.GaussianBlur(radius=20))
 
@@ -106,13 +96,13 @@ def generate():
 
     final = comp.resize((1200, 630), Image.Resampling.LANCZOS).convert('RGB')
     
-    # Save portfolio-og-v2.jpg
-    final.save(os.path.join(public_dir, 'portfolio-og-v2.jpg'), quality=90, optimize=True)
-    # Save og.jpg and og.png fallbacks
-    final.save(os.path.join(public_dir, 'og.jpg'), quality=90, optimize=True)
+    # Save portfolio-og-v3.jpg, portfolio-og-v2.jpg, og-image.jpg, and og.jpg
+    for fn in ['portfolio-og-v3.jpg', 'portfolio-og-v2.jpg', 'og-image.jpg', 'og.jpg']:
+        out_path = os.path.join(public_dir, fn)
+        final.save(out_path, quality=92, optimize=True)
     final.save(os.path.join(public_dir, 'og.png'), optimize=True)
     
-    print('Generated public/portfolio-og-v2.jpg, og.jpg and og.png successfully!')
+    print('Generated public/portfolio-og-v3.jpg, portfolio-og-v2.jpg, og-image.jpg successfully!')
 
 if __name__ == '__main__':
     generate()
