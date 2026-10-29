@@ -48,26 +48,38 @@ export function SkiperPerspectiveCarousel({ projects }: SkiperPerspectiveCarouse
   const activeProject = projects[activeIndex] || projects[0]
 
   const handleSlideClick = useCallback(
-    (index: number, slug: string) => {
+    (e: React.MouseEvent<HTMLElement>, slug: string) => {
       const swiper = swiperRef.current
       if (!swiper) return
 
-      const currentRealIndex = swiper.realIndex
-      if (currentRealIndex !== index) {
-        // If clicking a neighboring side slide, bring it to center
-        if (swiper.params.loop && projects.length > 2) {
-          swiper.slideToLoop(index)
-        } else {
-          swiper.slideTo(index)
-        }
+      if (swiper.animating) return
+
+      // Measure center position of clicked slide relative to carousel container center
+      const slideEl = e.currentTarget
+      const slideRect = slideEl.getBoundingClientRect()
+      const slideCenter = slideRect.left + slideRect.width / 2
+
+      const containerEl = swiper.el
+      const containerRect = containerEl.getBoundingClientRect()
+      const containerCenter = containerRect.left + containerRect.width / 2
+
+      const diff = slideCenter - containerCenter
+      const threshold = Math.min(50, slideRect.width * 0.15)
+
+      if (diff < -threshold) {
+        // Clicked a card to the LEFT -> slide backwards to bring it to center
+        swiper.slidePrev()
+      } else if (diff > threshold) {
+        // Clicked a card to the RIGHT -> slide forwards to bring it to center
+        swiper.slideNext()
       } else {
-        // If clicking the active center slide, navigate to case study
+        // Clicked active card in the CENTER -> view case study
         window.scrollTo(0, 0)
         scrollToTop(true)
         navigate(`/projects/${slug}`)
       }
     },
-    [navigate, projects.length],
+    [navigate],
   )
 
   if (!projects || projects.length === 0) {
@@ -93,7 +105,7 @@ export function SkiperPerspectiveCarousel({ projects }: SkiperPerspectiveCarouse
           grabCursor={true}
           centeredSlides={true}
           slidesPerView="auto"
-          slideToClickedSlide={true}
+          slideToClickedSlide={false}
           loop={isLoopable}
           speed={550}
           keyboard={{ enabled: true }}
@@ -124,7 +136,7 @@ export function SkiperPerspectiveCarousel({ projects }: SkiperPerspectiveCarouse
               <SwiperSlide
                 key={project.slug}
                 className="!h-auto !w-[290px] cursor-pointer select-none transition-all duration-500 sm:!w-[420px] md:!w-[470px] lg:!w-[520px]"
-                onClick={() => handleSlideClick(index, project.slug)}
+                onClick={(e) => handleSlideClick(e, project.slug)}
               >
                 <div
                   className={`group relative overflow-hidden rounded-2xl border transition-all duration-500 ${
@@ -421,6 +433,7 @@ export function SkiperPerspectiveCarousel({ projects }: SkiperPerspectiveCarouse
         .swiper-slide-shadow-right {
           background: rgba(10, 10, 15, 0.75) !important;
           border-radius: 1rem;
+          pointer-events: none !important;
         }
       `}</style>
     </div>

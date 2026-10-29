@@ -46,7 +46,7 @@ export default function AllProjects() {
   }, [selectedCategory])
 
   return (
-    <section className="relative min-h-[100svh] pt-[76px]">
+    <section className="relative min-h-[100svh] pt-24 sm:pt-28">
       {/* Subtle atmospheric ambient glow */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,59,78,0.08),transparent_70%)]" />
 
