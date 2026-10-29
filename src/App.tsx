@@ -39,6 +39,9 @@ export default function App() {
   useSmoothScroll(reduced)
 
   useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual'
+    }
     scrollToTop(true)
     if (location.hash) {
       navigate(`${location.pathname}${location.search}`, { replace: true })
@@ -55,6 +58,7 @@ export default function App() {
       return () => window.clearTimeout(timer)
     }
 
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior })
     scrollToTop(true)
   }, [location.pathname, location.hash, ready])
 

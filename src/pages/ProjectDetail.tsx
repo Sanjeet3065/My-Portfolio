@@ -1,15 +1,41 @@
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowUpRight, Github, Globe } from 'lucide-react'
 import { siteConfig } from '../config/site'
 import { getAdjacentProject, getProjectBySlug } from '../data/projects'
 import { ProjectArtwork } from '../components/projects/ProjectArtwork'
 import { Reveal } from '../components/ui/Reveal'
+import { scrollToTop } from '../lib/scroll'
 import NotFound from './NotFound'
 
 export default function ProjectDetail() {
   const { slug } = useParams<{ slug: string }>()
   const project = slug ? getProjectBySlug(slug) : undefined
+
+  useLayoutEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual'
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior })
+    scrollToTop(true)
+  }, [slug])
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior })
+    scrollToTop(true)
+    const t1 = setTimeout(() => {
+      window.scrollTo(0, 0)
+      scrollToTop(true)
+    }, 40)
+    const t2 = setTimeout(() => {
+      window.scrollTo(0, 0)
+      scrollToTop(true)
+    }, 150)
+    return () => {
+      clearTimeout(t1)
+      clearTimeout(t2)
+    }
+  }, [slug])
 
   useEffect(() => {
     if (!project) return
@@ -404,25 +430,82 @@ export default function ProjectDetail() {
           </div>
         </div>
 
-        {nextProject ? (
-          <Link
-            to={`/projects/${nextProject.slug}`}
-            data-cursor-label="Next"
-            className="group flex flex-col gap-6 border-t border-line/10 py-12 sm:flex-row sm:items-center sm:justify-between sm:py-16"
-          >
+        {/* Current Project Summary Badge & Actions */}
+        <div className="border-t border-line/10 py-10 sm:py-12">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-muted">Next project</p>
-              <h2 className="display mt-3 flex items-center gap-3 text-[clamp(2.4rem,6vw,5rem)] transition-colors duration-300 group-hover:text-ember">
-                {nextProject.title}
-              </h2>
+              <div className="flex items-center gap-2.5 font-mono text-[9.5px] uppercase tracking-[0.16em] text-muted sm:text-[8.5px]">
+                <span className="h-1.5 w-1.5 rounded-full bg-ember shadow-[0_0_10px_rgba(255,59,78,0.9)]" />
+                <span>Currently Viewing: Project {project.number}</span>
+                <span className="text-line/40">/</span>
+                <span className="text-paper/80">{project.category}</span>
+              </div>
+              <h3 className="display mt-2 text-2xl sm:text-3xl text-paper">{project.title}</h3>
+              <p className="mt-1 max-w-xl text-xs text-muted sm:text-sm">{project.tagline}</p>
             </div>
-            <div className="flex items-center gap-5">
-              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted sm:text-[9px] sm:tracking-[0.16em]">{nextProject.category}</span>
-              <span className="grid h-14 w-14 place-items-center rounded-full border border-line/15 transition-all duration-300 group-hover:border-ember/50 group-hover:bg-ember/10">
-                <ArrowUpRight className="h-5 w-5 text-muted transition-colors group-hover:text-ember" />
-              </span>
+            <div className="flex flex-wrap items-center gap-3">
+              {project.github ? (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-line/15 px-4 py-2 font-mono text-[9.5px] uppercase tracking-[0.12em] text-paper transition-colors hover:border-ember/40 hover:text-ember sm:text-[8.5px]"
+                >
+                  <Github className="h-3.5 w-3.5" />
+                  GitHub Repository
+                </a>
+              ) : null}
+              {project.live ? (
+                <a
+                  href={project.live}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="inline-flex min-h-[40px] items-center gap-2 rounded-full bg-paper px-4 py-2 font-mono text-[9.5px] uppercase tracking-[0.12em] text-ink transition-colors hover:bg-ember hover:text-paper sm:text-[8.5px]"
+                >
+                  <Globe className="h-3.5 w-3.5" />
+                  Live Project
+                </a>
+              ) : null}
             </div>
-          </Link>
+          </div>
+        </div>
+
+        {nextProject ? (
+          <div className="border-t border-line/10 pt-8 pb-10">
+            <Link
+              to={`/projects/${nextProject.slug}`}
+              onClick={() => {
+                window.scrollTo(0, 0)
+                scrollToTop(true)
+              }}
+              data-cursor-label="Next"
+              className="group block rounded-xl border border-line/10 bg-surface/30 p-6 sm:p-8 transition-all duration-300 hover:border-ember/30 hover:bg-surface/50"
+            >
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.18em] text-muted">
+                    <span>Up next in selected work</span>
+                    <span className="text-line/40">·</span>
+                    <span className="text-ember font-medium">Project {nextProject.number}</span>
+                  </div>
+                  <h4 className="display mt-2 text-2xl sm:text-4xl text-paper transition-colors duration-300 group-hover:text-ember">
+                    {nextProject.title}
+                  </h4>
+                  <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-muted sm:text-[9px]">
+                    {nextProject.category}
+                  </p>
+                </div>
+                <div className="flex items-center gap-3 self-start sm:self-center">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted transition-colors group-hover:text-paper sm:text-[9px]">
+                    Read case study
+                  </span>
+                  <span className="grid h-10 w-10 place-items-center rounded-full border border-line/15 transition-all duration-300 group-hover:border-ember/50 group-hover:bg-ember/10">
+                    <ArrowUpRight className="h-4 w-4 text-muted transition-colors group-hover:text-ember" />
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </div>
         ) : null}
 
         <div className="border-t border-line/10 py-10">

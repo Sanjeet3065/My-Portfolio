@@ -9,6 +9,7 @@ import { useReducedMotion } from '../../hooks/useReducedMotion'
 import { ProjectArtwork } from '../projects/ProjectArtwork'
 import { Reveal } from '../ui/Reveal'
 import { SectionHeading } from '../ui/SectionHeading'
+import { scrollToTop } from '../../lib/scroll'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -75,6 +76,10 @@ export function Projects() {
                 >
                   <Link
                     to={`/projects/${project.slug}`}
+                    onClick={() => {
+                      window.scrollTo(0, 0)
+                      scrollToTop(true)
+                    }}
                     data-cursor-label="View"
                     aria-label={`${project.title} — view case study`}
                     className={`relative block overflow-hidden border border-line/10 bg-surface transition-all duration-500 group-hover:border-ember/30 group-hover:shadow-[0_0_90px_-40px_rgba(255,59,78,0.55)] w-full max-w-[560px] mx-auto lg:max-w-none ${
@@ -141,6 +146,10 @@ export function Projects() {
                     <h3 className="display mt-5 sm:mt-6 text-[clamp(2.1rem,5.5vw,4.6rem)]">
                       <Link
                         to={`/projects/${project.slug}`}
+                        onClick={() => {
+                          window.scrollTo(0, 0)
+                          scrollToTop(true)
+                        }}
                         className="inline-flex items-center gap-3 transition-colors hover:text-paper"
                       >
                         {project.title}
@@ -167,6 +176,10 @@ export function Projects() {
                     <div className="mt-8 flex flex-wrap items-center gap-4">
                       <Link
                         to={`/projects/${project.slug}`}
+                        onClick={() => {
+                          window.scrollTo(0, 0)
+                          scrollToTop(true)
+                        }}
                         className="group/btn inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-paper sm:text-[10px] sm:tracking-[0.16em]"
                       >
                         <span className="relative">
