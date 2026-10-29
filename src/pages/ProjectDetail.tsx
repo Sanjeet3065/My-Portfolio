@@ -129,8 +129,13 @@ export default function ProjectDetail() {
           </div>
         </div>
 
-        {/* Case Study Hero Visual - Centered and reduced by ~10-15% with max-w-5xl */}
-        <Reveal clip className="mx-auto mt-10 w-full max-w-5xl rounded-2xl lg:mt-12">
+        {/* Case Study Hero Visual - Centered and reduced by ~10-15% */}
+        <Reveal
+          clip
+          className={`mx-auto mt-10 w-full rounded-2xl lg:mt-12 ${
+            project.slug === 'krishi-suraksha' ? 'max-w-4xl' : 'max-w-5xl'
+          }`}
+        >
           <div className="relative overflow-hidden rounded-2xl border border-line/15 bg-surface shadow-2xl">
             {project.live ? (
               <a

@@ -221,54 +221,223 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: 'connectly',
+    slug: 'krishi-suraksha',
     number: '02',
-    title: 'Connectly',
-    category: 'Real-Time Collaboration',
-    year: '2025',
-    status: 'In Development',
-    tagline: 'A meeting room that feels as immediate as a conversation.',
+    title: 'Krishi Suraksha',
+    category: 'AgriTech & AI Surveillance',
+    year: '2026',
+    status: 'Completed',
+    tagline: 'AI-driven crop pathology, microclimate risk modeling, and pest surveillance.',
     summary:
-      'A real-time video meeting and collaboration platform with messaging, screen sharing and the small interaction details that make remote work feel less remote.',
+      'An enterprise-grade, mobile-first agricultural decision support system developed for Smart India Hackathon 2026 (Problem Statement ID: 26131, Government of Maharashtra • MSInS). Combines multimodal vision AI crop pathology, Open-Meteo microclimate synchronization, ICAR-aligned expert validation, and GIS surveillance heatmaps across 13 Indian languages.',
     overview:
-      'Connectly is built around a simple idea: the best remote collaboration feels unremarkable. Rooms should open quickly, media should stay stable and the conversation should not wait for the interface.',
+      'Developed for Smart India Hackathon 2026 under Problem Statement ID 26131 (Government of Maharashtra • Maharashtra State Innovation Society - MSInS), Krishi Suraksha (KisanSarthi AI) is a mobile-first agricultural surveillance and diagnostic platform built to empower smallholder and commercial farmers. By bridging on-field mobile imaging with cloud-scale multimodal vision AI, live microclimate telemetry, and certified Krishi Vigyan Kendra (KVK) agricultural expert oversight, the system transforms reactive pest control into proactive, scientific crop protection.',
     problem:
-      'Video tools often separate the meeting from the work around it. Chat lives elsewhere, notes vanish, and connection states are hidden until something breaks.',
+      'Indian farmers face up to 30–35% annual crop yield losses due to untimely pest outbreaks, fungal blights, and delayed extension advisories. Traditional agricultural support mechanisms rely on infrequent in-person visits from district officers, leaving farmers vulnerable to misdiagnosis and excessive, uncalibrated chemical pesticide usage. Furthermore, smallholders lack access to localized microclimate data (like Growing Degree Days and relative humidity thresholds that trigger fungal sporulation) and linguistic accessibility across diverse regional vernaculars.',
     solution:
-      'A focused meeting experience with real-time messaging, screen sharing and clear participant controls — designed around WebRTC signalling and a resilient room lifecycle.',
+      'Krishi Suraksha delivers an integrated full-stack architecture that unifies instantaneous on-device leaf diagnostics with authoritative human-in-the-loop validation. Farmers capture symptomatic crop images that are analyzed via Google Gemini multimodal vision AI cross-referenced against ICAR Integrated Pest Management (IPM) guidelines. Concurrently, the platform pulls real-time hourly meteorological data from Open-Meteo to calculate microclimate risk scores, streams regional pest cluster heatmaps using Leaflet GIS, and routes ambiguous diagnoses to certified KVK scientists for audited treatment prescriptions across 13 Indian languages.',
     features: [
-      'Room creation and joining',
-      'Real-time in-room messaging',
-      'Screen sharing',
-      'Participant and media controls',
-      'Graceful reconnect states',
+      'Multimodal AI Crop Diagnosis: Instant on-device camera leaf scanning and cloud upload to Supabase Storage, running Gemini Vision AI with confidence-bounded screening across Cotton, Rice, Tomato, Soybean, Wheat, Grapes, and Sugarcane.',
+      'Live Microclimate & GDD Risk Engine: Real-time hourly Open-Meteo telemetry synchronization (temperature, humidity, precipitation, wind speed) calculating Growing Degree Days (GDD) and fungal risk coefficients with automated push warnings.',
+      'Certified KVK Scientist Audit Trail: Multi-tier role-based access control (Farmer, Expert, District Officer, Admin) allowing certified agricultural scientists to review, annotate, and prescribe ICAR-aligned chemical and non-chemical treatments.',
+      'Interactive Geospatial Surveillance Map: Leaflet + OpenStreetMap engine rendering GPS-geotagged crop health observations and district/taluka disease density heatmaps across 28+ Indian states and 750+ districts.',
+      '13 Indian Languages (100% Multilingual i18n): Comprehensive vernacular localization supporting Hindi, Marathi, Bengali, Tamil, Telugu, Gujarati, Punjabi, Kannada, Malayalam, Odia, Assamese, Urdu, and English without language leaks.',
+      'Multi-Option Auth & Master Recovery: 10-digit mobile number authentication, Google OAuth sign-in, and self-service password recovery with automatic PostgreSQL profile creation triggers.',
+      'Emergency Outbreak Alerts & Advisory Hub: Automated early warning notifications triggered by sudden humidity or pest risk spikes, paired with localized agricultural advisories.',
+      'Offline Resilient Architecture: Local state persistence via indexed storage ensuring field data and observation drafts remain accessible even with low network connectivity.',
     ],
-    tech: ['React', 'Node.js', 'Express.js', 'WebRTC', 'Socket.IO', 'MongoDB'],
+    tech: [
+      'React 18',
+      'TypeScript',
+      'Vite',
+      'Tailwind CSS',
+      'Supabase',
+      'PostgreSQL',
+      'Google Gemini Vision AI',
+      'Open-Meteo API',
+      'Leaflet GIS',
+      'Lucide Icons',
+      'Row Level Security (RLS)',
+    ],
     process: [
       {
-        title: 'Room lifecycle',
-        body: 'Defined what happens from invite to empty room, including reconnects and cleanup.',
+        title: 'Domain Research & ICAR Knowledge Modeling',
+        body: 'Analyzed ICAR Integrated Pest Management (IPM) guidelines, high-impact regional crop diseases in Maharashtra (Pink Bollworm in Cotton, Early/Late Blight in Tomato, Sheath Blight in Rice), and microclimate disease outbreak triggers.',
       },
       {
-        title: 'Signalling layer',
-        body: 'Built the event flow that lets peers discover each other without exposing unnecessary state.',
+        title: 'Architecture & Supabase PostgreSQL Setup',
+        body: 'Designed relational schemas with Row Level Security (RLS) across farms, observations, diagnoses, expert evaluations, and risk alerts with automatic database triggers and real-time event streaming.',
       },
       {
-        title: 'Media controls',
-        body: 'Kept device and permission states legible, even when the browser disagrees.',
+        title: 'Multimodal Vision AI & Microclimate Integration',
+        body: 'Connected Google Gemini Vision API for leaf pathology screening and configured zero-dependency hourly weather telemetry synchronization from Open-Meteo.',
       },
       {
-        title: 'Interface polish',
-        body: 'Reduced the room chrome so the people and the work stay in focus.',
+        title: 'Geospatial Heatmap & Multi-Tier Role System',
+        body: 'Implemented Leaflet mapping for GPS field coordinates and built separate validation workflows for farmers, agricultural extension officers, and certified KVK scientists.',
+      },
+      {
+        title: '13-Language Internationalization & Field Hardening',
+        body: 'Engineered a unified i18n localization dictionary covering 13 Indian languages with offline observation caching for remote rural connectivity.',
       },
     ],
     challenges: [
-      'Handling media permission and device states across browsers.',
-      'Keeping signalling predictable when participants leave or reconnect mid-session.',
-      'Designing feedback for network conditions without creating anxiety.',
+      'Ensuring accurate multimodal AI crop diagnosis on variable field photographs taken under uneven natural sunlight, blur, and soil background clutter.',
+      'Synchronizing real-time Open-Meteo weather telemetry without introducing API rate-limit bottlenecks or external key dependencies.',
+      'Designing strict PostgreSQL Row-Level Security (RLS) policies that separate private farmer records while allowing aggregate district-level surveillance for agricultural officers.',
+      'Maintaining 100% linguistic purity and semantic accuracy across 13 regional Indian languages without layout breaking or mixed-script fallback glitches.',
+    ],
+    architectureOverview:
+      'Krishi Suraksha is structured as a reactive, mobile-first cloud architecture coupling client-side field telemetry with Supabase PostgreSQL, edge compute, and external multimodal vision models.',
+    architectureLayers: [
+      {
+        layer: 'Client Presentation Layer',
+        technologies: 'React 18, TypeScript, Vite, Tailwind CSS, Lucide Icons',
+        description:
+          'Mobile-responsive interface with one-tap camera capture, voice accessibility, multi-language switching, and offline storage.',
+      },
+      {
+        layer: 'Multimodal AI & Pathology Engine',
+        technologies: 'Google Gemini Vision AI, ICAR IPM Protocols',
+        description:
+          'Analyzes leaf photographs against calibrated visual symptom datasets to identify pathogens, disease severity, and recommended countermeasures.',
+      },
+      {
+        layer: 'Microclimate & GDD Risk Engine',
+        technologies: 'Open-Meteo Open API, Telemetry Ingestion',
+        description:
+          'Fetches hourly ambient temperature, humidity, rainfall, and wind speeds to calculate Growing Degree Days (GDD) and fungal spore risk.',
+      },
+      {
+        layer: 'Geospatial Surveillance Engine',
+        technologies: 'Leaflet, OpenStreetMap, HTML5 Geolocation',
+        description:
+          'Renders cluster heatmaps, taluka/district disease density zones, and geotagged farmer observation markers with GPS coordinate binding.',
+      },
+      {
+        layer: 'Backend & Data Persistence',
+        technologies: 'Supabase PostgreSQL, Row Level Security, Edge Functions',
+        description:
+          'Relational database managing user profiles, farm records, observation logs, and expert evaluations with strict RLS data isolation.',
+      },
+    ],
+    engineeringWork: [
+      {
+        title: 'Human-in-the-Loop Expert Validation Workflow',
+        description:
+          'Engineered a dual-action verification queue where AI diagnoses with confidence flags are routed to verified KVK scientists for second-tier prescription overrides.',
+      },
+      {
+        title: 'Deterministic Weather Telemetry & Risk Scoring',
+        description:
+          'Developed an algorithmic risk scoring model that calculates fungal and pest sporulation probabilities directly from live hourly temperature and relative humidity telemetry.',
+      },
+      {
+        title: 'Pan-India 13-Language i18n Architecture',
+        description:
+          'Structured comprehensive language dictionaries across 13 Indian scripts, ensuring complete vernacular parity across diagnosis reports and prescriptions.',
+      },
+      {
+        title: 'Role-Based Row-Level Security (RLS)',
+        description:
+          'Implemented declarative PostgreSQL RLS policies enforcing tenant data privacy for farmers while exposing anonymized regional disease aggregation to government officers.',
+      },
+      {
+        title: 'Leaflet Geospatial Hotspot Mapping',
+        description:
+          'Built interactive geospatial surveillance maps rendering disease cluster polygons and district-wise outbreak densities without third-party mapping fees.',
+      },
+    ],
+    decisions: [
+      {
+        id: 'ADR-001',
+        title: 'Supabase PostgreSQL with RLS vs. Custom Node.js Express Backend',
+        context:
+          'SIH 2026 required rapid delivery of real-time sync, secure authentication, file storage for leaf images, and fine-grained multi-role access control.',
+        decision:
+          'Leveraged Supabase as the unified backend (PostgreSQL 15, Auth, Storage, and Realtime).',
+        consequence:
+          'Reduced backend boilerplate by 60%, enabled instant mobile camera uploads, and provided declarative security via PostgreSQL RLS policies.',
+      },
+      {
+        id: 'ADR-002',
+        title: 'Open-Meteo API for Weather Telemetry over Keyed Commercial Weather APIs',
+        context:
+          'The solution had to be deployed reliably without billing caps, per-request licensing costs, or API key exhaustion during jury demos.',
+        decision:
+          'Integrated the Open-Meteo Open API, which provides free, high-resolution global weather telemetry without API keys.',
+        consequence:
+          'Zero configuration hurdles, instant hourly synchronization of humidity and GDD metrics, and high uptime.',
+      },
+      {
+        id: 'ADR-003',
+        title: 'Human-in-the-Loop Scientist Validation over Autonomous AI-Only Prescriptions',
+        context:
+          'Recommending chemical and biological treatments for crops carries legal and livelihood consequences; AI hallucinations can ruin yields.',
+        decision:
+          'Created a dual-tier validation flow: AI provides instant preliminary diagnosis, but certified KVK experts review and approve chemical prescriptions.',
+        consequence:
+          'Ensures ICAR compliance, builds farmer trust, and provides an immutable audit trail for government extension programs.',
+      },
+      {
+        id: 'ADR-004',
+        title: 'Leaflet & OpenStreetMap over Google Maps Platform',
+        context:
+          'Surveillance heatmaps and farm boundary tagging needed to operate without expensive map tile licensing or credit card requirements.',
+        decision:
+          'Used open-source Leaflet with OpenStreetMap tiles and custom SVG coordinate overlays.',
+        consequence:
+          'Fully customizable dark/light theme tiles, offline tile caching capabilities, and zero licensing overhead.',
+      },
+      {
+        id: 'ADR-005',
+        title: 'Dictionary-Based 13-Language i18n over Automated Dynamic Translation',
+        context:
+          'Automated machine translation frequently distorts specialized agricultural terms (like "Stem Borer" or "Integrated Pest Management") into nonsense in regional scripts.',
+        decision:
+          'Built curated static JSON localization dictionaries for 13 Indian languages with vetted agricultural terminology.',
+        consequence:
+          '100% linguistic fidelity, zero latency on language switching, and no external translation API latency.',
+      },
+    ],
+    learnings: [
+      'Agricultural technology in emerging markets requires an offline-first mindset: rural connectivity fluctuates frequently, so client-side draft buffering is essential.',
+      'AI models must never operate in a vacuum in agronomy: pairing vision AI with microclimate telemetry and certified human expert verification dramatically increases farmer trust and adoption.',
+      'Row Level Security (RLS) in PostgreSQL provides enterprise-grade data isolation without needing bulky middle-tier authentication gateways.',
+      'Localization in multi-lingual countries demands specialized agricultural terminology dictionaries rather than naive generalized machine translation.',
     ],
     accent: 'cyan',
-    artwork: 'waves',
+    artwork: 'network',
+    image: '/images/projects/krishi-suraksha-hero.jpg',
+    imageAlt:
+      'Krishi Suraksha agricultural intelligence dashboard and field crop health monitoring platform in Maharashtra farmland',
+    github: 'https://github.com/gopal-maddheshiya/krishi-suraksha-sih2026',
+    gallery: [
+      {
+        src: '/images/projects/krishi-suraksha-hero.jpg',
+        alt: 'Krishi Suraksha Agricultural AI & Crop Health Surveillance Platform',
+        caption:
+          'Krishi Suraksha field intelligence: AI crop pathology analysis, live microclimate telemetry, and farmer decision support in Maharashtra.',
+      },
+      {
+        src: '/images/projects/krishi-suraksha-satellite.jpg',
+        alt: 'Geospatial Satellite Crop Surveillance Map',
+        caption:
+          'Interactive satellite GIS monitoring: Real-time geospatial tracking of crop health indices and regional pest incidence zones.',
+      },
+      {
+        src: '/images/projects/krishi-suraksha-trap.jpg',
+        alt: 'Smart IoT Pest Trap Sensor Integration',
+        caption:
+          'Automated pest density surveillance: Optical trap monitoring tracking real-time insect counts and early infestation triggers.',
+      },
+      {
+        src: '/images/projects/krishi-suraksha-cotton.jpg',
+        alt: 'Multimodal AI Crop Leaf Pathology Sample',
+        caption:
+          'Computer vision leaf diagnostic sample: Automated pathogen detection, disease severity classification, and ICAR treatment matching.',
+      },
+    ],
   },
   {
     slug: 'medicare',
