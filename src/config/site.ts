@@ -24,12 +24,12 @@ export const siteConfig = {
 
   // Fill these in with your real details. Empty values are hidden in the UI.
   email: 'chauhansanjeet887@gmail.com',
-  phone: '',
+  phone: '+91 9118123480',
   github: 'https://github.com/Sanjeet3065',
   linkedin: 'https://www.linkedin.com/in/sanjeetchauhan01/?isSelfProfile=true',
   leetcode: 'https://leetcode.com/u/Sanjeet_1080/',
   twitter: '',
-  whatsapp: '',
+  whatsapp: 'https://wa.me/919118123480?text=Hi%20Sanjeet%2C%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20connect.',
 
   // Resume path inside public folder
   resume: '/resume/Sanjeet_Chauhan_Resume.pdf',
@@ -55,5 +55,4 @@ export const socialLinks = [
   { key: 'leetcode' as const, label: 'LeetCode', href: siteConfig.leetcode },
   { key: 'github' as const, label: 'GitHub', href: siteConfig.github },
   { key: 'twitter' as const, label: 'X', href: siteConfig.twitter },
-  { key: 'whatsapp' as const, label: 'WhatsApp', href: siteConfig.whatsapp },
 ].filter((link) => link.href.length > 0)

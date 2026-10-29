@@ -15,7 +15,7 @@ import {
 import { siteConfig, socialLinks } from '../../config/site'
 import { scrollToTop } from '../../lib/scroll'
 import { useSectionNavigation } from '../../hooks/useSectionNavigation'
-import { copyShareText, getWhatsAppShareUrl, sharePortfolio } from '../../lib/share'
+import { copyShareText, sharePortfolio } from '../../lib/share'
 import { Magnetic } from '../ui/Magnetic'
 import { Reveal } from '../ui/Reveal'
 import { ContactForm } from '../contact/ContactForm'
@@ -230,11 +230,11 @@ export function Contact() {
                   </button>
 
                   <a
-                    href={getWhatsAppShareUrl()}
+                    href={siteConfig.whatsapp}
                     target="_blank"
-                    rel="noreferrer noopener"
-                    aria-label="Share directly on WhatsApp with full preview link"
-                    title="Share directly on WhatsApp"
+                    rel="noopener noreferrer"
+                    aria-label="Chat with me on WhatsApp"
+                    title="Chat with me on WhatsApp"
                     className="inline-flex min-h-[42px] items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/[0.08] px-3.5 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-emerald-400 transition-all hover:border-emerald-500/60 hover:bg-emerald-500/20 hover:text-emerald-300 sm:text-[9px] sm:tracking-[0.16em]"
                   >
                     <MessageCircle className="h-3.5 w-3.5 text-emerald-400" />
