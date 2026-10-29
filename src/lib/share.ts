@@ -14,9 +14,9 @@
  */
 
 export const PORTFOLIO_SHARE_DATA = {
-  title: 'Sanjeet Chauhan | Full Stack Developer',
+  title: 'Sanjeet Chauhan | Full-Stack Developer Portfolio',
   description:
-    'Explore the portfolio of Sanjeet Chauhan — Full Stack Developer specializing in MERN Stack, Java, DSA, and modern web development. Discover my projects, technical skills, and achievements.',
+    "Explore Sanjeet Chauhan's developer portfolio featuring full-stack projects, MERN stack development, Java, DSA, and software engineering work.",
   url: 'https://sanjeet-chauhan.vercel.app',
   get messageText(): string {
     return `${this.title}\n${this.description}\n${this.url}`
