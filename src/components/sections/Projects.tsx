@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ArrowUpRight, Github } from 'lucide-react'
+import { ArrowUpRight, Github, Globe } from 'lucide-react'
 import { projects } from '../../data/projects'
 import type { ProjectStatus } from '../../types'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
@@ -190,6 +190,19 @@ export function Projects() {
                           <ArrowUpRight className="h-3.5 w-3.5 text-muted transition-colors group-hover/btn:text-ember" />
                         </span>
                       </Link>
+
+                      {project.live ? (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          aria-label={`${project.title} live preview`}
+                          className="inline-flex min-h-[36px] items-center gap-2 rounded-full border border-ember/35 bg-ember/[0.08] px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-paper transition-colors hover:border-ember hover:bg-ember/20 hover:text-ember sm:text-[9px] sm:tracking-[0.14em]"
+                        >
+                          <Globe className="h-3.5 w-3.5 text-ember" />
+                          Live Demo
+                        </a>
+                      ) : null}
 
                       {project.github ? (
                         <a

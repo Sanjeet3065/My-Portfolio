@@ -210,7 +210,7 @@ export const projects: Project[] = [
     imageAlt:
       'POLARIS Antarctic Research Station Digital Twin operations command center interface displaying real-time telemetry, 3D station wireframe, and polar logistics map',
     github: 'https://github.com/Sanjeet3065/Polaris',
-    live: 'https://frontend-silk-iota-blp7wlwptm.vercel.app',
+    live: 'https://polaris-twin.vercel.app/',
     gallery: [
       {
         src: '/images/projects/polaris-hero.jpg',

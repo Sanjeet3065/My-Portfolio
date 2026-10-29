@@ -132,30 +132,71 @@ export default function ProjectDetail() {
         {/* Case Study Hero Visual - Centered and reduced by ~10-15% with max-w-5xl */}
         <Reveal clip className="mx-auto mt-10 w-full max-w-5xl lg:mt-12">
           <div className="relative overflow-hidden border border-line/10 bg-surface shadow-2xl">
-            <div className="aspect-[16/9] sm:aspect-[16/8.2]">
-              {project.image ? (
-                <picture>
-                  <source
-                    srcSet={project.image.replace(/\.(jpg|jpeg|png)$/i, '.webp')}
-                    type="image/webp"
+            {project.live ? (
+              <a
+                href={project.live}
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label={`Open ${project.title} live platform`}
+                className="group/hero block relative"
+              >
+                <div className="aspect-[16/9] sm:aspect-[16/8.2] overflow-hidden">
+                  {project.image ? (
+                    <picture>
+                      <source
+                        srcSet={project.image.replace(/\.(jpg|jpeg|png)$/i, '.webp')}
+                        type="image/webp"
+                      />
+                      <img
+                        src={project.image}
+                        alt={project.imageAlt ?? `${project.title} project visual`}
+                        className="h-full w-full object-cover transition-transform duration-700 ease-editorial group-hover/hero:scale-[1.025]"
+                        loading="eager"
+                        decoding="async"
+                      />
+                    </picture>
+                  ) : (
+                    <ProjectArtwork
+                      variant={project.artwork}
+                      accent={project.accent}
+                      label={`Abstract artwork for the ${project.title} project`}
+                    />
+                  )}
+                </div>
+                <div className="pointer-events-none absolute inset-0 bg-ink/0 transition-colors duration-300 group-hover/hero:bg-ink/30 flex items-center justify-center">
+                  <span className="opacity-0 group-hover/hero:opacity-100 transition-all duration-300 transform translate-y-2 group-hover/hero:translate-y-0 inline-flex items-center gap-2 rounded-full border border-white/20 bg-ink/80 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-paper backdrop-blur-md shadow-2xl">
+                    <Globe className="h-3.5 w-3.5 text-ember" />
+                    Open Live Platform
+                    <ArrowUpRight className="h-3.5 w-3.5 text-ember" />
+                  </span>
+                </div>
+              </a>
+            ) : (
+              <div className="aspect-[16/9] sm:aspect-[16/8.2]">
+                {project.image ? (
+                  <picture>
+                    <source
+                      srcSet={project.image.replace(/\.(jpg|jpeg|png)$/i, '.webp')}
+                      type="image/webp"
+                    />
+                    <img
+                      src={project.image}
+                      alt={project.imageAlt ?? `${project.title} project visual`}
+                      className="h-full w-full object-cover"
+                      loading="eager"
+                      decoding="async"
+                    />
+                  </picture>
+                ) : (
+                  <ProjectArtwork
+                    variant={project.artwork}
+                    accent={project.accent}
+                    label={`Abstract artwork for the ${project.title} project`}
                   />
-                  <img
-                    src={project.image}
-                    alt={project.imageAlt ?? `${project.title} project visual`}
-                    className="h-full w-full object-cover"
-                    loading="eager"
-                    decoding="async"
-                  />
-                </picture>
-              ) : (
-                <ProjectArtwork
-                  variant={project.artwork}
-                  accent={project.accent}
-                  label={`Abstract artwork for the ${project.title} project`}
-                />
-              )}
-            </div>
-            <div className="absolute inset-x-5 top-5 flex items-center justify-between font-mono text-[9.5px] uppercase tracking-[0.14em] text-paper/70 backdrop-blur-md sm:text-[8.5px] sm:tracking-[0.16em]">
+                )}
+              </div>
+            )}
+            <div className="pointer-events-none absolute inset-x-5 top-5 flex items-center justify-between font-mono text-[9.5px] uppercase tracking-[0.14em] text-paper/70 backdrop-blur-md sm:text-[8.5px] sm:tracking-[0.16em]">
               <span className="rounded-full border border-white/10 bg-ink/60 px-3 py-1.5">
                 Case study / {project.number}
               </span>
@@ -199,6 +240,39 @@ export default function ProjectDetail() {
               <p className="mt-4 font-mono text-[9.5px] uppercase leading-relaxed tracking-[0.14em] text-muted sm:text-[8px] sm:tracking-[0.16em]">
                 Details reflect actual implementation architecture and verified repository state.
               </p>
+
+              {project.live || project.github ? (
+                <div className="mt-5 flex flex-col gap-2 border-t border-line/10 pt-4">
+                  {project.live ? (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="inline-flex items-center justify-between rounded-lg border border-ember/30 bg-ember/10 px-3 py-2 font-mono text-[9.5px] uppercase tracking-[0.14em] text-paper transition-colors hover:border-ember hover:bg-ember/20 hover:text-ember"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Globe className="h-3 w-3 text-ember" />
+                        Live Platform
+                      </span>
+                      <ArrowUpRight className="h-3 w-3 text-ember" />
+                    </a>
+                  ) : null}
+                  {project.github ? (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="inline-flex items-center justify-between rounded-lg border border-line/15 px-3 py-2 font-mono text-[9.5px] uppercase tracking-[0.14em] text-muted transition-colors hover:border-ember/40 hover:text-paper"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Github className="h-3 w-3" />
+                        Repository
+                      </span>
+                      <ArrowUpRight className="h-3 w-3 text-muted" />
+                    </a>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
           </aside>
 

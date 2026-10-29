@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => {
   if (env.CONTACT_EMAIL_FROM) process.env.CONTACT_EMAIL_FROM = env.CONTACT_EMAIL_FROM
 
   return {
+    root: __dirname,
     plugins: [
       react(),
       {
