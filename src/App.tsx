@@ -15,6 +15,7 @@ import Home from './pages/Home'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const AllProjects = lazy(() => import('./pages/AllProjects'))
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
@@ -85,6 +86,7 @@ export default function App() {
           <Suspense fallback={<RouteFallback />}>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/projects" element={<AllProjects />} />
               <Route path="/projects/:slug" element={<ProjectDetail />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

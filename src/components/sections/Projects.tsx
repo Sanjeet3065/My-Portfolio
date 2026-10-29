@@ -22,6 +22,7 @@ const STATUS_STYLES: Record<ProjectStatus, string> = {
 export function Projects() {
   const sectionRef = useRef<HTMLElement>(null)
   const reduced = useReducedMotion()
+  const featuredProjects = projects.slice(0, 4)
 
   useEffect(() => {
     if (reduced) return
@@ -64,11 +65,11 @@ export function Projects() {
               <span className="text-muted">not just shown.</span>
             </>
           }
-          description="Five projects across full stack development, real-time systems and interface engineering. Each one pushed a different part of the stack — and a different part of my judgement."
+          description="Featured projects across full stack development, real-time systems, and digital twin engineering. Explore the complete archive for all technical case studies."
         />
 
         <div className="mt-12 border-t border-line/10 sm:mt-16 lg:mt-24">
-          {projects.map((project, index) => (
+          {featuredProjects.map((project, index) => (
             <article key={project.slug} className="border-b border-line/10 py-10 sm:py-14 lg:py-20">
               <Reveal>
                 <div
@@ -224,13 +225,42 @@ export function Projects() {
           ))}
         </div>
 
+        {/* View All Projects Button */}
+        <Reveal>
+          <div className="mt-12 flex flex-col items-center justify-center text-center sm:mt-16">
+            <Link
+              to="/projects"
+              onClick={() => {
+                window.scrollTo(0, 0)
+                scrollToTop(true)
+              }}
+              className="group relative inline-flex min-h-[52px] items-center gap-3.5 rounded-full border border-line/20 bg-surface/80 px-8 py-3.5 font-mono text-[11px] uppercase tracking-[0.16em] text-paper shadow-[0_4px_24px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all duration-300 hover:border-ember/50 hover:bg-surface hover:text-ember hover:shadow-[0_0_35px_-8px_rgba(255,59,78,0.5)] sm:text-[10px] sm:tracking-[0.18em]"
+            >
+              <span>View All Projects</span>
+              <span className="inline-flex items-center justify-center rounded-full bg-ember/15 px-2 py-0.5 font-mono text-[9px] text-ember transition-colors group-hover:bg-ember group-hover:text-ink">
+                {String(projects.length).padStart(2, '0')}
+              </span>
+              <span className="grid h-7 w-7 place-items-center rounded-full border border-line/20 transition-all duration-300 group-hover:border-ember/60 group-hover:bg-ember group-hover:text-ink">
+                <ArrowUpRight className="h-3.5 w-3.5 text-muted transition-colors group-hover:text-ink" />
+              </span>
+            </Link>
+          </div>
+        </Reveal>
+
         <Reveal>
           <div className="mt-8 flex flex-col gap-3 border-t border-line/10 pt-6 font-mono text-[10px] uppercase tracking-[0.14em] text-muted sm:flex-row sm:items-center sm:justify-between sm:text-[9px] sm:tracking-[0.16em]">
-            <span>05 projects · full stack &amp; interface engineering</span>
-            <span className="flex items-center gap-2">
+            <span>Showing 04 of {String(projects.length).padStart(2, '0')} projects · full stack &amp; interface engineering</span>
+            <Link
+              to="/projects"
+              onClick={() => {
+                window.scrollTo(0, 0)
+                scrollToTop(true)
+              }}
+              className="flex items-center gap-2 transition-colors hover:text-ember"
+            >
               <span className="h-1 w-1 rounded-full bg-ember shadow-[0_0_8px_rgba(255,59,78,0.9)]" />
-              More in progress
-            </span>
+              View complete archive ({projects.length})
+            </Link>
           </div>
         </Reveal>
       </div>
