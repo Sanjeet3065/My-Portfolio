@@ -441,54 +441,187 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: 'medicare',
+    slug: 'weather-application',
     number: '03',
-    title: 'MediCare',
-    category: 'Full Stack Commerce',
+    title: 'Weather Application',
+    category: 'Front-End Engineering & API Integration',
     year: '2025',
     status: 'Completed',
-    tagline: 'An online pharmacy with a clear path from search to checkout.',
+    tagline: 'Hyper-accurate live weather forecasts, solar tracking, and atmospheric sky visuals.',
     summary:
-      'A full-stack online pharmacy platform with authentication, product management, shopping cart, checkout and an administration experience.',
+      'A modern, framework-free atmospheric weather application built purely with Vanilla HTML5, CSS3, and ES6+ JavaScript. Delivers real-time meteorological telemetry, dynamic sky gradients, 24-hour hourly outlooks, solar cycle arc tracking, and interactive Bento Grid metrics powered by OpenWeatherMap and the browser Geolocation API.',
     overview:
-      'MediCare turns a complicated purchase journey into a direct one: find a product, understand it, add it to a cart and check out. Behind that flow sits a structured admin experience for managing the catalogue.',
+      'AuraSky (Weather Application) delivers hyper-local weather insights with an atmospheric, frosted glassmorphism Bento Grid interface. Engineered completely without runtime frameworks or third-party bundle overhead, it leverages native web APIs to deliver instantaneous data rendering. The application dynamically adjusts its ambient sky lighting based on live meteorological condition codes and daylight cycles, providing users with real-time temperature, high/low spreads, wind vectors, pressure, visibility, cloud coverage, thermal comfort analysis, and 5-day predictive forecasts.',
     problem:
-      'Online pharmacy interfaces carry an unusual amount of trust. Product clarity, account security and a reliable checkout matter more than experimental layouts.',
+      'Most mainstream weather dashboards suffer from bloated bundle sizes, heavy framework runtimes, and cluttered advertising that obscures critical meteorological information. Furthermore, many weather apps lack spatial and astronomical context—such as real-time solar elevation, sun trajectory between sunrise and sunset, and localized daylight duration—while failing to handle coordinate-based searches or GPS denial errors with graceful, user-friendly recovery paths.',
     solution:
-      'A MERN stack application with authentication, a managed product catalogue, cart and checkout flow, plus an admin area for product operations.',
+      'AuraSky solves this through a zero-dependency, ultra-lightweight client-side architecture built with vanilla ES6+ JavaScript, custom CSS3 design tokens, and modular DOM rendering. The application integrates OpenWeatherMap’s current weather and 5-day/3-hour forecast endpoints with asynchronous fetch pipelines. It features custom-drawn vector SVG weather illustrations, dynamic timezone synchronization across worldwide locations, an interactive 24-hour horizontal forecast strip, an Apple Weather-inspired 5-day outlook with min-max temperature range gradient bars, and dual-mode location search (global text query, one-tap GPS auto-detect, and a precision coordinate modal).',
     features: [
-      'User authentication',
-      'Product catalogue and management',
-      'Shopping cart and checkout flow',
-      'Admin product operations',
-      'Responsive storefront',
+      'Real-Time Weather Metrics: Instant temperature readout with unit switching (°C/°F), high/low daily spread, feels-like temperature, and dynamic condition badges.',
+      'Dynamic Atmospheric Sky Engine: Ambient radial-gradient sky background that automatically transforms lighting and ambient orbs based on weather conditions (rain, thunderstorm, snow, clear sky, overcast mist) and day/night cycles.',
+      'Astronomical Solar Arc Tracker: Real-time curve tracing the sun’s celestial trajectory between sunrise and sunset, displaying live solar position and total daylight hours.',
+      '24-Hour Hourly Outlook: Smooth horizontal scroll view presenting 3-hour forecast intervals, custom vector weather illustrations, and precipitation probability percentages.',
+      'Bento Grid Telemetry: Detailed modular cards for Wind (speed in km/h or mph, rotating cardinal compass needle, gusts), Relative Humidity (percentage and progress bar), Barometric Pressure (hPa with system verdict), Visibility distance, Cloud Coverage %, and Thermal Comfort index.',
+      '5-Day Extended Forecast: Apple Weather-style daily outlook with daily weather icons and calculated min-to-max temperature range gradient bars across the 5-day period.',
+      'Multi-Mode Location Discovery: Global city search, one-click browser GPS geolocation ("My Location"), popular city shortcut chips (London, Tokyo, New Delhi, New York, Dubai, Paris, Sydney), and a precision Coordinates Finder modal with landmark presets.',
+      'Favorites Management & Theme Customization: Slide-over drawer with bookmarks to monitor multiple global cities, and a one-tap toggle between Atmospheric Light Sky and Celestial Midnight Dark mode, persisted in localStorage.',
     ],
-    tech: ['React', 'Node.js', 'Express.js', 'MongoDB', 'REST APIs'],
+    tech: [
+      'HTML5',
+      'Vanilla CSS3',
+      'JavaScript (ES6+)',
+      'OpenWeatherMap API',
+      'Geolocation API',
+      'Vector SVG',
+      'Glassmorphism',
+      'LocalStorage',
+      'Vercel',
+    ],
+    architectureOverview:
+      'AuraSky is architected around a clean vanilla JavaScript event-driven state model. Instead of relying on virtual DOM diffing, it utilizes a centralized reactive state store, targeted DOM caching, asynchronous fetch orchestrators, and specialized rendering modules for the Hero card, Sun schedule, Hourly strip, Bento metrics, and 5-day forecast.',
+    architectureLayers: [
+      {
+        layer: 'Interface & Ambient Visuals',
+        technologies: 'Semantic HTML5, CSS3 Glassmorphism, CSS Custom Properties, SVG Icons',
+        description:
+          'Constructs a responsive Bento Grid layout utilizing backdrop-filter blur, CSS custom properties for dynamic condition themes, and zero-asset vector SVG graphics generated on the fly.',
+      },
+      {
+        layer: 'State & Event Orchestration',
+        technologies: 'Vanilla JavaScript (ES6+), Event Delegation, DOM Element Cache',
+        description:
+          'Maintains single-source-of-truth state for temperature unit, active theme, favorites, and weather payload; manages cached DOM node references for sub-millisecond updates.',
+      },
+      {
+        layer: 'Data Ingestion & Telemetry Pipelines',
+        technologies: 'Fetch API, OpenWeatherMap REST Endpoints, HTML5 Geolocation',
+        description:
+          'Coordinates asynchronous HTTP fetch pipelines for current conditions and 5-day forecast, parses UTC timestamps into local destination timezones, and handles location fallbacks.',
+      },
+      {
+        layer: 'Storage & Persistence',
+        technologies: 'Web Storage API (localStorage)',
+        description:
+          'Persists user preferences—including metric/imperial unit selections, celestial dark/light theme choices, and bookmarked global cities—across browser sessions without server-side database requirements.',
+      },
+    ],
     process: [
       {
-        title: 'Flow mapping',
-        body: 'Started with the purchase and admin journeys, then derived data needs from those paths.',
+        title: 'Interface Architecture & Bento Wireframing',
+        body: 'Designed a modern glassmorphic Bento Grid hierarchy prioritizing instant legibility: Hero conditions and solar trajectory above the fold, followed by hourly projections, detailed atmospheric cards, and the 5-day extended outlook.',
       },
       {
-        title: 'API and auth',
-        body: 'Built the server routes and authentication boundary before connecting the storefront.',
+        title: 'Native Weather Ingestion & Timezone Math',
+        body: 'Implemented async fetch handlers querying OpenWeatherMap endpoints. Engineered timezone conversion algorithms computing city-specific local clock time, solar noon, and relative sun angles irrespective of the client’s local computer clock.',
       },
       {
-        title: 'Commerce interface',
-        body: 'Designed product, cart and checkout views with a focus on confidence and clarity.',
+        title: 'Procedural Vector SVG Generation',
+        body: 'Created custom vector SVG illustrations for sun, clouds, rain, snow, thunderstorms, and fog directly in code, completely eliminating raster icon HTTP requests and maintaining crispness on high-DPI Retina screens.',
       },
       {
-        title: 'Admin build',
-        body: 'Added catalogue controls so content could change without touching code.',
+        title: 'Multi-Mode Geolocation & Coordinate Engine',
+        body: 'Built flexible discovery mechanisms supporting global free-text city searches, native HTML5 browser GPS coordinates, and a dedicated geographic coordinate finder modal with preset landmarks.',
+      },
+      {
+        title: 'Persistence, Theming & Production Polish',
+        body: 'Implemented one-click Celsius/Fahrenheit toggle with real-time mathematical recalculation, Celestial Midnight dark mode, and a favorites drawer with localStorage persistence, deploying to Vercel with zero build step.',
+      },
+    ],
+    engineeringWork: [
+      {
+        title: 'Framework-Free Reactive Architecture',
+        description:
+          'Engineered a complete, modern application without frameworks (React/Vue) or build tools, proving high-performance UI engineering and clean separation of concerns using native web standards.',
+        details: [
+          'Direct DOM manipulation with cached element selectors avoiding unnecessary reflows',
+          'Zero bundle overhead resulting in sub-second initial page load on slow cellular networks',
+          'Clean modular function boundaries separating API fetching, data normalization, and view rendering',
+        ],
+      },
+      {
+        title: 'Solar Arc Calculation & Astronomical Tracking',
+        description:
+          'Calculated current solar progression using trigonometric mapping along an elliptical curve based on epoch sunrise/sunset timestamps.',
+        details: [
+          'Trigonometric positioning mapping angleRad = PI * sunProgress to calculate dot elevation',
+          'Dynamic opacity and glow adjustments when the sun is below the horizon',
+          'Computed total daylight hours and minutes for daylight cycle awareness',
+        ],
+      },
+      {
+        title: 'Dynamic Atmospheric Ambience Engine',
+        description:
+          'Constructed an ambient background lighting system that reacts to real-time weather IDs and day/night flags.',
+        details: [
+          'Custom CSS properties (--orb-1-color, --orb-2-color, --orb-3-color) updated dynamically via JavaScript',
+          'Smooth CSS transitions between ambient sky states during city transitions',
+          'Coordinated glassmorphism backdrop filters preserving contrast in both light and dark themes',
+        ],
+      },
+    ],
+    decisions: [
+      {
+        id: 'ADR-01',
+        title: 'Vanilla JavaScript over Frontend Frameworks',
+        context:
+          'The application required high responsiveness, quick startup time, and zero dependency maintenance.',
+        decision:
+          'Built the application with pure ES6+ JavaScript, HTML5, and CSS3 rather than React, Vue, or Next.js.',
+        consequence:
+          'Achieved near-zero bundle size, instant time-to-interactive, and straightforward hosting without build steps, while requiring manual DOM node lifecycle management.',
+      },
+      {
+        id: 'ADR-02',
+        title: 'Inline Vector SVG Icon Generation',
+        context:
+          'Loading third-party icon libraries or external PNG icon packs causes network waterfalls and visual layout shifts.',
+        decision:
+          'Wrote an inline SVG generator mapping OpenWeatherMap condition codes to hand-crafted vector graphics with day/night variants.',
+        consequence:
+          'Guaranteed zero HTTP icon request latency, crisp rendering across all screen resolutions, and full control over SVG gradient fills and drop shadows.',
+      },
+      {
+        id: 'ADR-03',
+        title: 'Client-Side Timezone Normalization',
+        context:
+          'OpenWeatherMap returns timestamps in UTC seconds along with a timezone shift in seconds. Using client new Date() directly causes inaccurate local city times.',
+        decision:
+          'Engineered a dedicated timezone normalizer computing nowUtc = Date.now() + clientOffset, then applying destination city offset.',
+        consequence:
+          'Accurate local time, date, day/night icon selection, and solar position for any worldwide city regardless of user location.',
       },
     ],
     challenges: [
-      'Keeping cart state consistent across views.',
-      'Protecting admin operations with a clear authorization boundary.',
-      'Designing mobile checkout that does not hide important product context.',
+      'Accurate timezone offset calculations when determining whether it is day or night in distant global timezones.',
+      'Mapping multi-interval 3-hour forecast chunks into a clean, Apple Weather-style min-to-max 5-day temperature range bar with proportional gradient offsets.',
+      'Designing robust fallback handling for geolocation denial, non-existent city queries, and network dropouts via interactive toast alerts and error states.',
     ],
-    accent: 'ember',
-    artwork: 'capsules',
+    learnings: [
+      'Mastering native browser APIs (Fetch, Geolocation, Web Storage, and CSS Custom Properties) often yields cleaner, more durable utilities than framework abstractions.',
+      'Glassmorphic UI design requires careful contrast checking against variable dynamic gradient backgrounds to maintain WCAG accessibility.',
+      'Deconstructing complex JSON payloads into clean, specialized rendering pipelines prevents UI lag even when parsing dozens of telemetry metrics simultaneously.',
+    ],
+    accent: 'cyan',
+    artwork: 'weather',
+    image: '/images/projects/weather-application-hero.jpg',
+    imageAlt:
+      'AuraSky Weather Application interface showcasing live weather telemetry, solar tracking curve, 24-hour forecast, and Bento Grid metrics',
+    github: 'https://github.com/Sanjeet3065/Weather-Application',
+    live: 'https://weather-application-aura-sky.vercel.app/',
+    gallery: [
+      {
+        src: '/images/projects/weather-application-hero.jpg',
+        alt: 'AuraSky Atmospheric Weather Application Desktop Overview',
+        caption:
+          'AuraSky live dashboard: Hero weather card with real-time temperature, condition badge, solar trajectory curve, and 24-hour hourly outlook.',
+      },
+      {
+        src: '/images/projects/weather-application-dashboard.jpg',
+        alt: 'AuraSky Comprehensive Bento Telemetry & 5-Day Extended Outlook',
+        caption:
+          'Complete atmospheric telemetry suite: Bento grid displaying Wind, Humidity, Pressure, Visibility, Cloud Coverage, Thermal Comfort, and Apple Weather-style 5-day forecast.',
+      },
+    ],
   },
   {
     slug: 'collab',
@@ -592,7 +725,12 @@ export const projects: Project[] = [
   },
 ]
 
-export const getProjectBySlug = (slug: string) => projects.find((project) => project.slug === slug)
+export const getProjectBySlug = (slug: string) =>
+  projects.find(
+    (project) =>
+      project.slug === slug ||
+      (slug === 'medicare' && project.slug === 'weather-application'),
+  )
 
 export const getAdjacentProject = (slug: string) => {
   const index = projects.findIndex((project) => project.slug === slug)
