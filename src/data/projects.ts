@@ -412,6 +412,7 @@ export const projects: Project[] = [
     imageAlt:
       'Krishi Suraksha agricultural intelligence dashboard and field crop health monitoring platform in Maharashtra farmland',
     github: 'https://github.com/gopal-maddheshiya/krishi-suraksha-sih2026',
+    live: 'https://krishi-suraksha-sih2026.vercel.app/',
     gallery: [
       {
         src: '/images/projects/krishi-suraksha-hero.jpg',
