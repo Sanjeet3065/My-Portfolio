@@ -231,36 +231,38 @@ export function SkiperPerspectiveCarousel({ projects }: SkiperPerspectiveCarouse
           })}
         </Swiper>
 
-        {/* Carousel Navigation Arrows & Project Counter */}
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-4 px-2 sm:px-4">
-          {/* Previous / Next Buttons */}
-          <div className="flex items-center gap-2">
+        {/* Centered Carousel Navigation Island */}
+        <div className="mt-5 flex items-center justify-center">
+          <div className="inline-flex items-center gap-3 rounded-full border border-line/20 bg-surface/70 px-4 py-2 shadow-lg backdrop-blur-md transition-all duration-300 sm:gap-4">
+            {/* Previous Button */}
             <button
               type="button"
-              className="skiper-prev-btn group flex h-9 w-9 items-center justify-center rounded-full border border-line/20 bg-surface/70 text-paper backdrop-blur-md transition-all hover:border-ember hover:bg-surface hover:text-ember focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember sm:h-10 sm:w-10"
+              className="skiper-prev-btn group flex h-8 w-8 items-center justify-center rounded-full border border-line/20 bg-surface/80 text-paper transition-all hover:border-ember hover:bg-surface hover:text-ember focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember sm:h-9 sm:w-9"
               aria-label="Previous project slide"
             >
               <ChevronLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
             </button>
+
+            {/* Pagination Bullets */}
+            <div className="skiper-pagination-container flex items-center gap-1.5" />
+
+            {/* Project Index Counter */}
+            <div className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted sm:text-[9.5px]">
+              <span className="font-semibold text-paper">
+                {String(activeIndex + 1).padStart(2, '0')}
+              </span>
+              <span className="mx-1 text-line/40">/</span>
+              <span>{String(projects.length).padStart(2, '0')}</span>
+            </div>
+
+            {/* Next Button */}
             <button
               type="button"
-              className="skiper-next-btn group flex h-9 w-9 items-center justify-center rounded-full border border-line/20 bg-surface/70 text-paper backdrop-blur-md transition-all hover:border-ember hover:bg-surface hover:text-ember focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember sm:h-10 sm:w-10"
+              className="skiper-next-btn group flex h-8 w-8 items-center justify-center rounded-full border border-line/20 bg-surface/80 text-paper transition-all hover:border-ember hover:bg-surface hover:text-ember focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember sm:h-9 sm:w-9"
               aria-label="Next project slide"
             >
               <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </button>
-          </div>
-
-          {/* Pagination Bullets */}
-          <div className="skiper-pagination-container flex items-center gap-1.5" />
-
-          {/* Project Index Counter */}
-          <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-muted sm:text-[9.5px]">
-            <span className="font-semibold text-paper">
-              {String(activeIndex + 1).padStart(2, '0')}
-            </span>
-            <span className="mx-1 text-line/40">/</span>
-            <span>{String(projects.length).padStart(2, '0')}</span>
           </div>
         </div>
       </div>
