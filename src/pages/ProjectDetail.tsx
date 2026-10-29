@@ -130,17 +130,17 @@ export default function ProjectDetail() {
         </div>
 
         {/* Case Study Hero Visual - Centered and reduced by ~10-15% with max-w-5xl */}
-        <Reveal clip className="mx-auto mt-10 w-full max-w-5xl lg:mt-12">
-          <div className="relative overflow-hidden border border-line/10 bg-surface shadow-2xl">
+        <Reveal clip className="mx-auto mt-10 w-full max-w-5xl rounded-2xl lg:mt-12">
+          <div className="relative overflow-hidden rounded-2xl border border-line/15 bg-surface shadow-2xl">
             {project.live ? (
               <a
                 href={project.live}
                 target="_blank"
                 rel="noreferrer noopener"
                 aria-label={`Open ${project.title} live platform`}
-                className="group/hero block relative"
+                className="group/hero block relative rounded-2xl overflow-hidden"
               >
-                <div className="aspect-[16/9] sm:aspect-[16/8.2] overflow-hidden">
+                <div className="aspect-[16/9] sm:aspect-[16/8.2] overflow-hidden rounded-2xl">
                   {project.image ? (
                     <picture>
                       <source
@@ -172,7 +172,7 @@ export default function ProjectDetail() {
                 </div>
               </a>
             ) : (
-              <div className="aspect-[16/9] sm:aspect-[16/8.2]">
+              <div className="aspect-[16/9] sm:aspect-[16/8.2] overflow-hidden rounded-2xl">
                 {project.image ? (
                   <picture>
                     <source
@@ -445,7 +445,7 @@ export default function ProjectDetail() {
                 <p className="eyebrow"><span className="h-px w-6 bg-ember/70" />Visual showcase</p>
                 <div className="mt-8 space-y-6">
                   {project.gallery.map((image) => (
-                    <figure key={image.src} className="overflow-hidden border border-line/10 bg-surface/50">
+                    <figure key={image.src} className="overflow-hidden rounded-xl border border-line/10 bg-surface/50 sm:rounded-2xl">
                       <picture>
                         <source
                           srcSet={image.src.replace(/\.(jpg|jpeg|png)$/i, '.webp')}

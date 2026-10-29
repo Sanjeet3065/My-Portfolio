@@ -82,7 +82,7 @@ export function Projects() {
                     }}
                     data-cursor-label="View"
                     aria-label={`${project.title} — view case study`}
-                    className={`relative block overflow-hidden border border-line/10 bg-surface transition-all duration-500 group-hover:border-ember/30 group-hover:shadow-[0_0_90px_-40px_rgba(255,59,78,0.55)] w-full max-w-[560px] mx-auto lg:max-w-none ${
+                    className={`relative block overflow-hidden rounded-xl sm:rounded-2xl border border-line/10 bg-surface transition-all duration-500 group-hover:border-ember/30 group-hover:shadow-[0_0_90px_-40px_rgba(255,59,78,0.55)] w-full max-w-[560px] mx-auto lg:max-w-none ${
                       index % 2 === 1 ? 'lg:order-2' : ''
                     }`}
                   >
