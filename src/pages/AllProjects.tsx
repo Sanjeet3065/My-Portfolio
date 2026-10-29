@@ -81,72 +81,88 @@ export default function AllProjects() {
       {/* Subtle atmospheric ambient glow */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,59,78,0.08),transparent_70%)]" />
 
-      <div className="shell relative py-12 sm:py-16 lg:py-24">
-        {/* Navigation back to home */}
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="shell relative pt-4 pb-12 sm:pt-6 sm:pb-16 lg:pb-20">
+        {/* Navigation back to home & top metadata */}
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line/10 pb-4">
           <Link
             to="/"
             onClick={() => {
               window.scrollTo(0, 0)
               scrollToTop(true)
             }}
-            className="group inline-flex min-h-[44px] items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted transition-colors hover:text-paper sm:text-[9px] sm:tracking-[0.18em]"
+            className="group inline-flex min-h-[40px] items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted transition-colors hover:text-paper sm:text-[9px] sm:tracking-[0.18em]"
           >
             <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
             Back to home
           </Link>
 
-          <div className="flex items-center gap-2 font-mono text-[9.5px] uppercase tracking-[0.16em] text-muted sm:text-[8.5px]">
-            <span className="h-1.5 w-1.5 rounded-full bg-ember shadow-[0_0_8px_rgba(255,59,78,0.9)]" />
-            <span>Complete Technical Archive ({projects.length})</span>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.16em] text-muted sm:text-[8.5px]">
+              <span className="h-1.5 w-1.5 rounded-full bg-ember shadow-[0_0_8px_rgba(255,59,78,0.9)]" />
+              <span>Complete Technical Archive ({projects.length})</span>
+            </div>
+
+            {/* Quick jump to details button */}
+            <button
+              type="button"
+              onClick={() => {
+                const target = document.getElementById('project-spotlight')
+                if (target) {
+                  target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+              }}
+              className="hidden items-center gap-1.5 rounded-full border border-line/20 bg-surface/50 px-3 py-1 font-mono text-[8.5px] uppercase tracking-[0.14em] text-muted hover:border-ember/40 hover:text-paper sm:inline-flex"
+            >
+              <span>Jump to Details</span>
+              <span className="text-ember">↓</span>
+            </button>
           </div>
         </div>
 
-        {/* Page Header */}
-        <div className="mt-10 flex flex-col justify-between gap-8 lg:mt-14 lg:flex-row lg:items-end">
-          <div className="max-w-3xl">
-            <p className="eyebrow">
-              <span className="h-px w-6 bg-ember/70" />
-              Interactive Works Wheel &amp; Case Studies
-            </p>
+        {/* Streamlined Compact Header with View Mode Switcher */}
+        <div className="mt-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="h-px w-5 bg-ember/70" />
+              <p className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-ember sm:text-[8.5px]">
+                Interactive 3D Engine &amp; Case Studies
+              </p>
+            </div>
 
-            <h1 className="display mt-6 text-[clamp(2.5rem,8vw,6.5rem)] leading-[0.95] text-paper">
-              All Projects
-            </h1>
-
-            <p className="mt-5 max-w-2xl font-display text-xl leading-snug tracking-tight text-paper/90 sm:text-2xl">
-              A comprehensive catalog of full-stack platforms, real-time collaboration engines, digital twins, and autonomous AI systems.
-            </p>
-
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted sm:text-base">
-              Explore projects using the 3D interactive wheel below or switch to the classic grid archive. Click any project card to open its detailed technical case study.
-            </p>
+            <div className="mt-2 flex flex-wrap items-baseline gap-4">
+              <h1 className="display text-3xl font-bold tracking-tight text-paper sm:text-4xl lg:text-5xl">
+                All Projects
+              </h1>
+              <p className="font-display text-sm text-paper/80 sm:text-base">
+                Engineering archive of full-stack platforms, digital twins &amp; autonomous AI systems
+              </p>
+            </div>
           </div>
 
           {/* View Mode Switcher */}
-          <div className="flex shrink-0 items-center gap-1.5 rounded-full border border-line/20 bg-surface/60 p-1.5 backdrop-blur-md">
+          <div className="flex shrink-0 items-center gap-1.5 rounded-full border border-line/20 bg-surface/60 p-1 backdrop-blur-md">
             <button
               type="button"
               onClick={() => setViewMode('wheel')}
-              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-all duration-300 ${
+              className={`inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 font-mono text-[9.5px] uppercase tracking-[0.14em] transition-all duration-300 ${
                 viewMode === 'wheel'
                   ? 'border border-ember/50 bg-ember text-ink font-semibold shadow-[0_0_20px_rgba(255,59,78,0.4)]'
                   : 'text-muted hover:text-paper hover:bg-surface/50'
               }`}
             >
-              <Disc className="h-3.5 w-3.5" />
-              <span>3D Wheel View</span>
+              <Disc className="h-3 w-3" />
+              <span>3D Wheel</span>
             </button>
             <button
               type="button"
               onClick={() => setViewMode('grid')}
-              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-all duration-300 ${
+              className={`inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 font-mono text-[9.5px] uppercase tracking-[0.14em] transition-all duration-300 ${
                 viewMode === 'grid'
                   ? 'border border-ember/50 bg-ember text-ink font-semibold shadow-[0_0_20px_rgba(255,59,78,0.4)]'
                   : 'text-muted hover:text-paper hover:bg-surface/50'
               }`}
             >
-              <LayoutGrid className="h-3.5 w-3.5" />
+              <LayoutGrid className="h-3 w-3" />
               <span>Grid Archive</span>
             </button>
           </div>
@@ -154,20 +170,29 @@ export default function AllProjects() {
 
         {/* ---------------- 3D WHEEL VIEW ---------------- */}
         {viewMode === 'wheel' && (
-          <div className="mt-10 sm:mt-12 lg:mt-14">
+          <div className="mt-8 sm:mt-10 lg:mt-12">
             <Reveal>
               <WorksWheel
                 items={wheelItems}
                 label="ALL PROJECTS"
                 action="View Case Study"
                 onActiveChange={setActiveWheelIndex}
+                onScrollPageDown={() => {
+                  const target = document.getElementById('project-spotlight')
+                  if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  }
+                }}
               />
             </Reveal>
 
             {/* Spotlight Banner for Active Wheel Project */}
             {currentSpotlightProject && (
               <Reveal delay={100}>
-                <div className="mt-8 rounded-2xl border border-line/15 bg-surface/40 p-6 backdrop-blur-md transition-all duration-300 hover:border-ember/30 sm:p-8 lg:mt-10">
+                <div
+                  id="project-spotlight"
+                  className="mt-8 scroll-mt-24 rounded-2xl border border-line/15 bg-surface/40 p-6 backdrop-blur-md transition-all duration-300 hover:border-ember/30 sm:p-8 lg:mt-10"
+                >
                   <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                     <div className="max-w-3xl">
                       <div className="flex flex-wrap items-center gap-3 font-mono text-[9.5px] uppercase tracking-[0.16em] text-muted sm:text-[8.5px]">
