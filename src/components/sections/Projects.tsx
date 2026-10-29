@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, Github } from 'lucide-react'
 import { projects } from '../../data/projects'
 import type { ProjectStatus } from '../../types'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
@@ -70,25 +70,41 @@ export function Projects() {
           {projects.map((project, index) => (
             <article key={project.slug} className="border-b border-line/10 py-10 sm:py-14 lg:py-20">
               <Reveal>
-                <Link
-                  to={`/projects/${project.slug}`}
-                  data-cursor-label="View"
-                  aria-label={`${project.title} — view case study`}
-                  className="group grid gap-7 lg:grid-cols-[1.12fr_0.88fr] lg:items-center lg:gap-14"
+                <div
+                  className="group grid gap-7 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-14 xl:gap-16"
                 >
-                  <div
-                    className={`relative overflow-hidden border border-line/10 bg-surface transition-all duration-500 group-hover:border-ember/30 group-hover:shadow-[0_0_90px_-40px_rgba(255,59,78,0.55)] ${
+                  <Link
+                    to={`/projects/${project.slug}`}
+                    data-cursor-label="View"
+                    aria-label={`${project.title} — view case study`}
+                    className={`relative block overflow-hidden border border-line/10 bg-surface transition-all duration-500 group-hover:border-ember/30 group-hover:shadow-[0_0_90px_-40px_rgba(255,59,78,0.55)] w-full max-w-[560px] mx-auto lg:max-w-none ${
                       index % 2 === 1 ? 'lg:order-2' : ''
                     }`}
                   >
                     <div className="aspect-[16/10] overflow-hidden">
                       <div data-project-media className="h-full w-full will-change-transform">
-                        <ProjectArtwork
-                          variant={project.artwork}
-                          accent={project.accent}
-                          label={`Abstract artwork for the ${project.title} project`}
-                          className="transition-transform duration-700 ease-editorial group-hover:scale-[1.035]"
-                        />
+                        {project.image ? (
+                          <picture>
+                            <source
+                              srcSet={project.image.replace(/\.(jpg|jpeg|png)$/i, '.webp')}
+                              type="image/webp"
+                            />
+                            <img
+                              src={project.image}
+                              alt={project.imageAlt ?? `${project.title} project preview`}
+                              className="h-full w-full object-cover transition-transform duration-700 ease-editorial group-hover:scale-[1.035]"
+                              loading={index === 0 ? 'eager' : 'lazy'}
+                              decoding="async"
+                            />
+                          </picture>
+                        ) : (
+                          <ProjectArtwork
+                            variant={project.artwork}
+                            accent={project.accent}
+                            label={`Abstract artwork for the ${project.title} project`}
+                            className="transition-transform duration-700 ease-editorial group-hover:scale-[1.035]"
+                          />
+                        )}
                       </div>
                     </div>
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent opacity-60" />
@@ -109,7 +125,7 @@ export function Projects() {
                         {project.status}
                       </span>
                     </div>
-                  </div>
+                  </Link>
 
                   <div className={index % 2 === 1 ? 'lg:order-1 lg:pr-4' : 'lg:pl-4'}>
                     <div className="flex items-center gap-4">
@@ -122,9 +138,14 @@ export function Projects() {
                       </span>
                     </div>
 
-                    <h3 className="display mt-5 sm:mt-6 flex items-center gap-3 text-[clamp(2.1rem,5.5vw,4.6rem)]">
-                      {project.title}
-                      <span className="h-1.5 w-1.5 rounded-full bg-ember opacity-0 shadow-[0_0_14px_rgba(255,59,78,0.9)] transition-opacity duration-300 group-hover:opacity-100" />
+                    <h3 className="display mt-5 sm:mt-6 text-[clamp(2.1rem,5.5vw,4.6rem)]">
+                      <Link
+                        to={`/projects/${project.slug}`}
+                        className="inline-flex items-center gap-3 transition-colors hover:text-paper"
+                      >
+                        {project.title}
+                        <span className="h-1.5 w-1.5 rounded-full bg-ember opacity-0 shadow-[0_0_14px_rgba(255,59,78,0.9)] transition-opacity duration-300 group-hover:opacity-100" />
+                      </Link>
                     </h3>
 
                     <p className="mt-3 font-display text-lg leading-snug tracking-tight text-paper/90 sm:text-xl">
@@ -143,17 +164,35 @@ export function Projects() {
                       ))}
                     </div>
 
-                    <div className="mt-8 inline-flex items-center gap-3">
-                      <span className="relative font-mono text-[11px] uppercase tracking-[0.14em] text-paper sm:text-[10px] sm:tracking-[0.16em]">
-                        View case study
-                        <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-ember transition-transform duration-500 ease-editorial group-hover:scale-x-100" />
-                      </span>
-                      <span className="grid h-9 w-9 place-items-center rounded-full border border-line/15 transition-all duration-300 group-hover:border-ember/50 group-hover:bg-ember/10 sm:h-8 sm:w-8">
-                        <ArrowUpRight className="h-3.5 w-3.5 text-muted transition-colors group-hover:text-ember" />
-                      </span>
+                    <div className="mt-8 flex flex-wrap items-center gap-4">
+                      <Link
+                        to={`/projects/${project.slug}`}
+                        className="group/btn inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-paper sm:text-[10px] sm:tracking-[0.16em]"
+                      >
+                        <span className="relative">
+                          View case study
+                          <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-ember transition-transform duration-500 ease-editorial group-hover/btn:scale-x-100" />
+                        </span>
+                        <span className="grid h-9 w-9 place-items-center rounded-full border border-line/15 transition-all duration-300 group-hover/btn:border-ember/50 group-hover/btn:bg-ember/10 sm:h-8 sm:w-8">
+                          <ArrowUpRight className="h-3.5 w-3.5 text-muted transition-colors group-hover/btn:text-ember" />
+                        </span>
+                      </Link>
+
+                      {project.github ? (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          aria-label={`${project.title} GitHub repository`}
+                          className="inline-flex min-h-[36px] items-center gap-2 rounded-full border border-line/15 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-muted transition-colors hover:border-ember/40 hover:text-paper sm:text-[9px] sm:tracking-[0.14em]"
+                        >
+                          <Github className="h-3.5 w-3.5" />
+                          Repository
+                        </a>
+                      ) : null}
                     </div>
                   </div>
-                </Link>
+                </div>
               </Reveal>
             </article>
           ))}

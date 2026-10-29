@@ -29,7 +29,12 @@ export interface Project {
   imageAlt?: string
   github?: string
   live?: string
-  gallery?: { src: string; alt: string }[]
+  gallery?: { src: string; alt: string; caption?: string }[]
+  architectureOverview?: string
+  architectureLayers?: { layer: string; technologies: string; description: string }[]
+  engineeringWork?: { title: string; description: string; details?: string[] }[]
+  decisions?: { id: string; title: string; context: string; decision: string; consequence: string }[]
+  learnings?: string[]
 }
 
 export interface Moment {

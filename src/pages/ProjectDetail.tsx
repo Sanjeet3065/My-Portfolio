@@ -7,15 +7,6 @@ import { ProjectArtwork } from '../components/projects/ProjectArtwork'
 import { Reveal } from '../components/ui/Reveal'
 import NotFound from './NotFound'
 
-const SECTIONS = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'problem', label: 'Problem & solution' },
-  { id: 'features', label: 'Key features' },
-  { id: 'process', label: 'Development process' },
-  { id: 'challenges', label: 'Technical challenges' },
-  { id: 'stack', label: 'Technology' },
-]
-
 export default function ProjectDetail() {
   const { slug } = useParams<{ slug: string }>()
   const project = slug ? getProjectBySlug(slug) : undefined
@@ -37,6 +28,20 @@ export default function ProjectDetail() {
   if (!project) return <NotFound />
 
   const nextProject = getAdjacentProject(project.slug)
+
+  const sections = [
+    { id: 'overview', label: 'Overview' },
+    { id: 'problem', label: 'Problem & solution' },
+    { id: 'features', label: 'Key features' },
+    ...(project.architectureLayers?.length ? [{ id: 'architecture', label: 'System architecture' }] : []),
+    ...(project.process?.length ? [{ id: 'process', label: 'Development process' }] : []),
+    ...(project.engineeringWork?.length ? [{ id: 'engineering', label: 'Engineering contributions' }] : []),
+    ...(project.challenges?.length ? [{ id: 'challenges', label: 'Technical challenges' }] : []),
+    ...(project.decisions?.length ? [{ id: 'decisions', label: 'Architectural decisions (ADRs)' }] : []),
+    { id: 'stack', label: 'Technology stack' },
+    ...(project.learnings?.length ? [{ id: 'learnings', label: 'What I learned' }] : []),
+    ...(project.gallery?.length ? [{ id: 'gallery', label: 'Visual showcase' }] : []),
+  ]
 
   return (
     <section className="relative pt-[76px]">
@@ -80,7 +85,7 @@ export default function ProjectDetail() {
                   className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-line/15 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.12em] text-paper transition-colors hover:border-ember/40 hover:text-ember sm:text-[9px] sm:tracking-[0.14em]"
                 >
                   <Github className="h-3.5 w-3.5" />
-                  Repository
+                  GitHub Repository
                 </a>
               ) : null}
               {project.live ? (
@@ -98,15 +103,24 @@ export default function ProjectDetail() {
           </div>
         </div>
 
-        <Reveal clip className="mt-12 lg:mt-16">
-          <div className="relative overflow-hidden border border-line/10 bg-surface">
-            <div className="aspect-[16/9] sm:aspect-[16/8]">
+        {/* Case Study Hero Visual - Centered and reduced by ~10-15% with max-w-5xl */}
+        <Reveal clip className="mx-auto mt-10 w-full max-w-5xl lg:mt-12">
+          <div className="relative overflow-hidden border border-line/10 bg-surface shadow-2xl">
+            <div className="aspect-[16/9] sm:aspect-[16/8.2]">
               {project.image ? (
-                <img
-                  src={project.image}
-                  alt={project.imageAlt ?? `${project.title} project visual`}
-                  className="h-full w-full object-cover"
-                />
+                <picture>
+                  <source
+                    srcSet={project.image.replace(/\.(jpg|jpeg|png)$/i, '.webp')}
+                    type="image/webp"
+                  />
+                  <img
+                    src={project.image}
+                    alt={project.imageAlt ?? `${project.title} project visual`}
+                    className="h-full w-full object-cover"
+                    loading="eager"
+                    decoding="async"
+                  />
+                </picture>
               ) : (
                 <ProjectArtwork
                   variant={project.artwork}
@@ -115,9 +129,11 @@ export default function ProjectDetail() {
                 />
               )}
             </div>
-            <div className="absolute inset-x-5 top-5 flex items-center justify-between font-mono text-[9.5px] uppercase tracking-[0.14em] text-paper/60 sm:text-[8.5px] sm:tracking-[0.16em]">
-              <span>Case study / {project.number}</span>
-              <span className="flex items-center gap-2">
+            <div className="absolute inset-x-5 top-5 flex items-center justify-between font-mono text-[9.5px] uppercase tracking-[0.14em] text-paper/70 backdrop-blur-md sm:text-[8.5px] sm:tracking-[0.16em]">
+              <span className="rounded-full border border-white/10 bg-ink/60 px-3 py-1.5">
+                Case study / {project.number}
+              </span>
+              <span className="flex items-center gap-2 rounded-full border border-white/10 bg-ink/60 px-3 py-1.5">
                 <span className="h-1 w-1 rounded-full bg-ember shadow-[0_0_8px_rgba(255,59,78,0.9)]" />
                 {project.status}
               </span>
@@ -129,7 +145,7 @@ export default function ProjectDetail() {
           <aside className="h-fit lg:sticky lg:top-28">
             <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted sm:text-[9px] sm:tracking-[0.18em]">In this case study</p>
             <nav className="mt-5 flex flex-col border-t border-line/10" aria-label="Case study sections">
-              {SECTIONS.map((section, index) => (
+              {sections.map((section, index) => (
                 <a
                   key={section.id}
                   href={`#${section.id}`}
@@ -155,14 +171,14 @@ export default function ProjectDetail() {
                 {project.status}
               </p>
               <p className="mt-4 font-mono text-[9.5px] uppercase leading-relaxed tracking-[0.14em] text-muted sm:text-[8px] sm:tracking-[0.16em]">
-                Details reflect the current state of the project and evolve as it is built.
+                Details reflect actual implementation architecture and verified repository state.
               </p>
             </div>
           </aside>
 
           <div className="space-y-16 lg:space-y-20">
             <div id="overview" className="scroll-mt-28">
-              <p className="eyebrow"><span className="h-px w-6 bg-ember/70" />Overview</p>
+              <p className="eyebrow"><span className="h-px w-6 bg-ember/70" />Project overview</p>
               <p className="mt-6 font-display text-2xl leading-snug tracking-tight text-paper sm:text-3xl">
                 {project.overview}
               </p>
@@ -174,7 +190,7 @@ export default function ProjectDetail() {
                 <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base">{project.problem}</p>
               </div>
               <div>
-                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-signal">The approach</p>
+                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-signal">The solution</p>
                 <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base">{project.solution}</p>
               </div>
             </div>
@@ -187,11 +203,35 @@ export default function ProjectDetail() {
                     <span className="mt-1 font-mono text-[8.5px] tracking-[0.16em] text-muted/60">
                       {String(index + 1).padStart(2, '0')}
                     </span>
-                    <span className="text-sm text-paper/85">{feature}</span>
+                    <span className="text-sm leading-relaxed text-paper/85">{feature}</span>
                   </li>
                 ))}
               </ul>
             </div>
+
+            {project.architectureLayers && project.architectureLayers.length > 0 ? (
+              <div id="architecture" className="scroll-mt-28 border-t border-line/10 pt-10">
+                <p className="eyebrow"><span className="h-px w-6 bg-ember/70" />System architecture</p>
+                {project.architectureOverview ? (
+                  <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base">
+                    {project.architectureOverview}
+                  </p>
+                ) : null}
+                <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                  {project.architectureLayers.map((layer) => (
+                    <div key={layer.layer} className="border border-line/10 bg-surface/40 p-5">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <h4 className="font-display text-base text-paper">{layer.layer}</h4>
+                        <span className="rounded-full border border-line/15 px-2 py-0.5 font-mono text-[8.5px] uppercase tracking-[0.12em] text-accent">
+                          {layer.technologies}
+                        </span>
+                      </div>
+                      <p className="mt-3 text-xs leading-relaxed text-muted sm:text-sm">{layer.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
 
             <div id="process" className="scroll-mt-28 border-t border-line/10 pt-10">
               <p className="eyebrow"><span className="h-px w-6 bg-ember/70" />Development process</p>
@@ -209,6 +249,25 @@ export default function ProjectDetail() {
               </div>
             </div>
 
+            {project.engineeringWork && project.engineeringWork.length > 0 ? (
+              <div id="engineering" className="scroll-mt-28 border-t border-line/10 pt-10">
+                <p className="eyebrow"><span className="h-px w-6 bg-ember/70" />My engineering work</p>
+                <div className="mt-8 space-y-4">
+                  {project.engineeringWork.map((work, index) => (
+                    <div key={work.title} className="border border-line/10 bg-surface/30 p-5 sm:p-6">
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono text-[9px] text-ember sm:text-[8.5px]">
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                        <h4 className="font-display text-base text-paper sm:text-lg">{work.title}</h4>
+                      </div>
+                      <p className="mt-3 text-sm leading-relaxed text-muted">{work.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+
             <div id="challenges" className="scroll-mt-28 border-t border-line/10 pt-10">
               <p className="eyebrow"><span className="h-px w-6 bg-ember/70" />Technical challenges</p>
               <ul className="mt-6 divide-y divide-line/10">
@@ -221,8 +280,40 @@ export default function ProjectDetail() {
               </ul>
             </div>
 
+            {project.decisions && project.decisions.length > 0 ? (
+              <div id="decisions" className="scroll-mt-28 border-t border-line/10 pt-10">
+                <p className="eyebrow"><span className="h-px w-6 bg-ember/70" />Architectural decisions (ADRs)</p>
+                <div className="mt-8 space-y-5">
+                  {project.decisions.map((adr) => (
+                    <div key={adr.id} className="border border-line/10 bg-surface/35 p-5 sm:p-6">
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <span className="rounded-full border border-ember/30 bg-ember/10 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.14em] text-ember">
+                          {adr.id}
+                        </span>
+                        <h4 className="font-display text-base text-paper">{adr.title}</h4>
+                      </div>
+                      <div className="mt-4 grid gap-3 text-xs sm:text-sm">
+                        <div>
+                          <span className="font-mono text-[8.5px] uppercase tracking-[0.16em] text-muted">Context:</span>
+                          <p className="mt-1 text-muted leading-relaxed">{adr.context}</p>
+                        </div>
+                        <div>
+                          <span className="font-mono text-[8.5px] uppercase tracking-[0.16em] text-signal">Decision:</span>
+                          <p className="mt-1 text-paper/90 leading-relaxed">{adr.decision}</p>
+                        </div>
+                        <div>
+                          <span className="font-mono text-[8.5px] uppercase tracking-[0.16em] text-accent">Consequence:</span>
+                          <p className="mt-1 text-muted leading-relaxed">{adr.consequence}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+
             <div id="stack" className="scroll-mt-28 border-t border-line/10 pt-10">
-              <p className="eyebrow"><span className="h-px w-6 bg-ember/70" />Technology</p>
+              <p className="eyebrow"><span className="h-px w-6 bg-ember/70" />Technology stack</p>
               <div className="mt-6 flex flex-wrap gap-2">
                 {project.tech.map((tech) => (
                   <span
@@ -235,22 +326,81 @@ export default function ProjectDetail() {
               </div>
             </div>
 
+            {project.learnings && project.learnings.length > 0 ? (
+              <div id="learnings" className="scroll-mt-28 border-t border-line/10 pt-10">
+                <p className="eyebrow"><span className="h-px w-6 bg-ember/70" />What I learned</p>
+                <ul className="mt-6 divide-y divide-line/10">
+                  {project.learnings.map((learning) => (
+                    <li key={learning} className="flex items-start gap-4 py-4">
+                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent shadow-[0_0_8px_rgba(56,189,248,0.7)]" />
+                      <span className="text-sm leading-relaxed text-muted">{learning}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+
             {project.gallery && project.gallery.length > 0 ? (
-              <div className="border-t border-line/10 pt-10">
-                <p className="eyebrow"><span className="h-px w-6 bg-ember/70" />Gallery</p>
-                <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              <div id="gallery" className="scroll-mt-28 border-t border-line/10 pt-10">
+                <p className="eyebrow"><span className="h-px w-6 bg-ember/70" />Visual showcase</p>
+                <div className="mt-8 space-y-6">
                   {project.gallery.map((image) => (
-                    <img
-                      key={image.src}
-                      src={image.src}
-                      alt={image.alt}
-                      loading="lazy"
-                      className="w-full border border-line/10 object-cover"
-                    />
+                    <figure key={image.src} className="overflow-hidden border border-line/10 bg-surface/50">
+                      <picture>
+                        <source
+                          srcSet={image.src.replace(/\.(jpg|jpeg|png)$/i, '.webp')}
+                          type="image/webp"
+                        />
+                        <img
+                          src={image.src}
+                          alt={image.alt}
+                          loading="lazy"
+                          className="w-full object-cover"
+                        />
+                      </picture>
+                      {image.caption ? (
+                        <figcaption className="border-t border-line/10 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.14em] text-muted sm:text-[9px] sm:tracking-[0.16em]">
+                          {image.caption}
+                        </figcaption>
+                      ) : null}
+                    </figure>
                   ))}
                 </div>
               </div>
             ) : null}
+
+            <div className="border-t border-line/10 pt-10">
+              <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-line/10 bg-surface/30 p-6">
+                <div>
+                  <h4 className="font-display text-lg text-paper">Explore the repository</h4>
+                  <p className="mt-1 text-xs text-muted sm:text-sm">Inspect source code, microservices architecture, and technical documentation.</p>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  {project.github ? (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-line/15 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.12em] text-paper transition-colors hover:border-ember/40 hover:text-ember sm:text-[9px] sm:tracking-[0.14em]"
+                    >
+                      <Github className="h-3.5 w-3.5" />
+                      GitHub Repository
+                    </a>
+                  ) : null}
+                  {project.live ? (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-paper px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.12em] text-ink transition-colors hover:bg-ember hover:text-paper sm:text-[9px] sm:tracking-[0.14em]"
+                    >
+                      <Globe className="h-3.5 w-3.5" />
+                      Live Project
+                    </a>
+                  ) : null}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
