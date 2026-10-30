@@ -39,7 +39,7 @@ node scripts/generate-og.mjs   # writes public/og.png
 src/
   config/site.ts          identity, availability, contact links, navigation
   data/
-    projects.ts           5 case studies + all copy
+    projects.ts           6 case studies + all copy
     moments.ts            Winning Moments gallery entries
     achievements.ts       awards, certifications, participations
     skills.ts             tech categories
