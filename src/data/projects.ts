@@ -630,9 +630,9 @@ export const projects: Project[] = [
     category: 'Public Health & Clean Air Tech',
     year: '2025',
     status: 'Completed',
-    tagline: 'Health-first route planning and clean air navigation for Lucknow.',
+    tagline: 'Real-Time Clean Route Intelligence Across Uttar Pradesh.',
     summary:
-      'A health-optimized routing web application for Lucknow that evaluates travel corridors based on real-time AQI, PM2.5 exposure, traffic congestion, and industrial proximity rather than just speed.',
+      'A real-time clean route navigation platform across 75 districts of Uttar Pradesh that compares travel corridors by cumulative particulate inhalation, live Copernicus CAMS air quality, and atmospheric smog dispersal rather than just speed.',
     overview:
       'Developed for a hackathon under Track 4: Public Health & Environment, The Healthy Path (The Green Path) is an air-quality-aware route planner designed specifically for commuters in Lucknow. Traditional mapping engines strictly optimize for the shortest distance or travel duration, frequently routing cyclists, pedestrians, and two-wheeler commuters through severely polluted arterials, heavy traffic chokepoints, and construction corridors. The Healthy Path flips this paradigm by evaluating travel options through an environmental health lens, calculating comparative Health Scores (0-100) and recommending paths with lower PM2.5 and pollutant exposure.',
     problem:
@@ -718,15 +718,15 @@ export const projects: Project[] = [
     artwork: 'waves',
     image: '/images/projects/the-healthy-path-hero.jpg',
     imageAlt:
-      'The Healthy Path - Lucknow Clean Air Navigator interface displaying air quality metrics, route finder, and city AQI zones',
+      'The Healthy Path - Real-Time Clean Route Intelligence Across Uttar Pradesh banner preview',
     github: 'https://github.com/Sanjeet3065/The-Healthy-Path',
     live: 'https://the-healthy-path.vercel.app/',
     gallery: [
       {
         src: '/images/projects/the-healthy-path-hero.jpg',
-        alt: 'The Healthy Path Lucknow Clean Air Navigator Live Interface',
+        alt: 'The Healthy Path - Clean Route Navigation Across Uttar Pradesh',
         caption:
-          'The Healthy Path live interface: Hero banner with health statistics, Lucknow Clean Air Navigator route finder, and real-time AQI zone monitor.',
+          'The Healthy Path official banner: Clean route intelligence across 75 districts of Uttar Pradesh, featuring live Copernicus CAMS air quality and corridor smog dispersal modeling.',
       },
       {
         src: '/images/projects/the-healthy-path-route-comparison.jpg',
