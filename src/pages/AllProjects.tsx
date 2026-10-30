@@ -24,12 +24,102 @@ export default function AllProjects() {
       'Explore the complete engineering archive of full-stack platforms, real-time architectures, digital twin platforms, and microservices built by Sanjeet Chauhan.',
     )
 
+    // Route-specific mobile zoom control:
+    // Restrict zoom-out ONLY on /projects while keeping zoom-in unrestricted.
+    const viewportMeta = document.querySelector('meta[name="viewport"]')
+    const previousViewport =
+      viewportMeta?.getAttribute('content') ?? 'width=device-width, initial-scale=1.0'
+
+    // Set viewport with initial 1.0, minimum-scale 0.85 (sensible limit), and maximum-scale 5.0 (unrestricted zoom-in)
+    viewportMeta?.setAttribute(
+      'content',
+      'width=device-width, initial-scale=1.0, minimum-scale=0.85, maximum-scale=5.0',
+    )
+
+    // Active touch pinch guard: prevents mobile browsers from shrinking below 0.85 scale
+    const MIN_SCALE = 0.85
+    let initialPinchDistance: number | null = null
+
+    const getTouchDistance = (touches: TouchList) => {
+      if (touches.length < 2) return 0
+      return Math.hypot(
+        touches[0].clientX - touches[1].clientX,
+        touches[0].clientY - touches[1].clientY,
+      )
+    }
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 2) {
+        initialPinchDistance = getTouchDistance(e.touches)
+      } else {
+        initialPinchDistance = null
+      }
+    }
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 2 && initialPinchDistance !== null) {
+        const currentDistance = getTouchDistance(e.touches)
+        // Zoom-out is when fingers move closer together (distance decreases)
+        const isZoomingOut = currentDistance < initialPinchDistance
+
+        if (isZoomingOut) {
+          const currentScale = window.visualViewport ? window.visualViewport.scale : 1.0
+          // If at or below sensible minimum scale, prevent further zoom out
+          if (currentScale <= MIN_SCALE + 0.01) {
+            if (e.cancelable) {
+              e.preventDefault()
+            }
+          }
+        }
+      }
+    }
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (e.touches.length < 2) {
+        initialPinchDistance = null
+      }
+    }
+
+    // WebKit / iOS Safari gesture event handler
+    const handleGestureStart = () => {
+      // Gesture initiated
+    }
+
+    const handleGestureChange = (e: Event & { scale?: number }) => {
+      // scale < 1.0 indicates pinch zoom-out
+      if (typeof e.scale === 'number' && e.scale < 1.0) {
+        const currentScale = window.visualViewport ? window.visualViewport.scale : 1.0
+        if (currentScale <= MIN_SCALE + 0.01) {
+          if (e.cancelable) {
+            e.preventDefault()
+          }
+        }
+      }
+    }
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true })
+    window.addEventListener('touchmove', handleTouchMove, { passive: false })
+    window.addEventListener('touchend', handleTouchEnd, { passive: true })
+    window.addEventListener('gesturestart', handleGestureStart as EventListener, { passive: true })
+    window.addEventListener('gesturechange', handleGestureChange as EventListener, {
+      passive: false,
+    })
+
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior })
     scrollToTop(true)
 
+    // Route cleanup: revert viewport meta tag and remove touch listeners when navigating away
     return () => {
       document.title = previousTitle
       meta?.setAttribute('content', previousDescription)
+      if (viewportMeta) {
+        viewportMeta.setAttribute('content', previousViewport)
+      }
+      window.removeEventListener('touchstart', handleTouchStart)
+      window.removeEventListener('touchmove', handleTouchMove)
+      window.removeEventListener('touchend', handleTouchEnd)
+      window.removeEventListener('gesturestart', handleGestureStart as EventListener)
+      window.removeEventListener('gesturechange', handleGestureChange as EventListener)
     }
   }, [])
 
@@ -46,7 +136,7 @@ export default function AllProjects() {
   }, [selectedCategory])
 
   return (
-    <section className="relative min-h-[100svh] pt-24 sm:pt-28">
+    <section className="relative min-h-[100svh] overflow-x-clip pt-24 sm:pt-28">
       {/* Subtle atmospheric ambient glow */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,59,78,0.08),transparent_70%)]" />
 
