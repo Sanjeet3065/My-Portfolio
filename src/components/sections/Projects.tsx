@@ -22,7 +22,7 @@ const STATUS_STYLES: Record<ProjectStatus, string> = {
 export function Projects() {
   const sectionRef = useRef<HTMLElement>(null)
   const reduced = useReducedMotion()
-  const featuredProjects = projects.slice(0, 3)
+  const featuredProjects = projects.slice(0, 4)
 
   useEffect(() => {
     if (reduced) return
@@ -249,7 +249,7 @@ export function Projects() {
 
         <Reveal>
           <div className="mt-8 flex flex-col gap-3 border-t border-line/10 pt-6 font-mono text-[10px] uppercase tracking-[0.14em] text-muted sm:flex-row sm:items-center sm:justify-between sm:text-[9px] sm:tracking-[0.16em]">
-            <span>Showing 03 of {String(projects.length).padStart(2, '0')} projects · full stack &amp; interface engineering</span>
+            <span>Showing {String(featuredProjects.length).padStart(2, '0')} of {String(projects.length).padStart(2, '0')} projects · full stack &amp; interface engineering</span>
             <Link
               to="/projects"
               onClick={() => {

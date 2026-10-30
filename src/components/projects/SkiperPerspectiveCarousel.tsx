@@ -236,6 +236,38 @@ export function SkiperPerspectiveCarousel({ projects }: SkiperPerspectiveCarouse
                         </span>
                       )}
                     </div>
+
+                    {/* Direct Quick-Action Links on Active Card */}
+                    {isActive && (project.live || project.github) && (
+                      <div className="mt-2.5 flex items-center gap-2 border-t border-line/10 pt-2">
+                        {project.live && (
+                          <a
+                            href={project.live}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            onClick={(e) => e.stopPropagation()}
+                            aria-label={`${project.title} live preview`}
+                            className="inline-flex items-center gap-1.5 rounded-full border border-ember/35 bg-ember/10 px-2.5 py-1 font-mono text-[8px] uppercase tracking-[0.1em] text-paper transition-colors hover:border-ember hover:bg-ember/25 hover:text-ember"
+                          >
+                            <Globe className="h-2.5 w-2.5 text-ember" />
+                            Live Demo
+                          </a>
+                        )}
+                        {project.github && (
+                          <a
+                            href={project.github}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            onClick={(e) => e.stopPropagation()}
+                            aria-label={`${project.title} GitHub repository`}
+                            className="inline-flex items-center gap-1.5 rounded-full border border-line/20 bg-surface/70 px-2.5 py-1 font-mono text-[8px] uppercase tracking-[0.1em] text-muted transition-colors hover:border-ember/40 hover:text-paper"
+                          >
+                            <Github className="h-2.5 w-2.5" />
+                            Code
+                          </a>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </SwiperSlide>
