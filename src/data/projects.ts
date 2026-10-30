@@ -624,8 +624,121 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: 'collab',
+    slug: 'the-healthy-path',
     number: '04',
+    title: 'The Healthy Path',
+    category: 'Public Health & Clean Air Tech',
+    year: '2025',
+    status: 'Completed',
+    tagline: 'Health-first route planning and clean air navigation for Lucknow.',
+    summary:
+      'A health-optimized routing web application for Lucknow that evaluates travel corridors based on real-time AQI, PM2.5 exposure, traffic congestion, and industrial proximity rather than just speed.',
+    overview:
+      'Developed for a hackathon under Track 4: Public Health & Environment, The Healthy Path (The Green Path) is an air-quality-aware route planner designed specifically for commuters in Lucknow. Traditional mapping engines strictly optimize for the shortest distance or travel duration, frequently routing cyclists, pedestrians, and two-wheeler commuters through severely polluted arterials, heavy traffic chokepoints, and construction corridors. The Healthy Path flips this paradigm by evaluating travel options through an environmental health lens, calculating comparative Health Scores (0-100) and recommending paths with lower PM2.5 and pollutant exposure.',
+    problem:
+      'In dense Indian urban centers like Lucknow, air quality fluctuates dramatically across neighborhoods—varying from moderate (AQI ~45-78 in park-adjacent residential zones like Janeshwar Mishra Park and Gomti Nagar) to severe (AQI 185-210+ near transit hubs and industrial clusters like Charbagh and Talkatora). Conventional navigation applications direct commuters along the quickest roads without accounting for airborne toxins. Commuters unknowingly spend extended transit windows in high-exposure microenvironments, accelerating respiratory risk and long-term particulate intake.',
+    solution:
+      'The Healthy Path introduces a clean air navigation model that evaluates multiple route alternatives between designated Lucknow origins and destinations. The application ingests CPCB-aligned air quality readings across 12+ city zones, cross-references traffic density, construction activities, and green buffer corridors, and computes an aggregate Health Score for each route. Routes are categorized into "Green Route (Recommended)", "Balanced Route", and "Fastest Route (High Pollution)", empowering users to make proactive health decisions before stepping onto the road.',
+    features: [
+      'Cleanest Route Recommendations: Generates multiple route candidates between Lucknow locations, contrasting the health-optimal path against traditional fastest routes.',
+      'Health Score Rating Engine: Computes a multi-factor 0-100 score factoring average AQI, particulate intensity, traffic congestion, and green canopy corridors.',
+      'Lucknow AQI Zone Telemetry: Tracks real-time air quality metrics across 12+ city zones (Janeshwar Mishra Park, Gomti Nagar, Hazratganj, Charbagh, Talkatora, Aliganj, etc.).',
+      'Multi-Pollutant Risk Indicators: Evaluates environmental risks including PM2.5, metro construction dust, industrial proximity, and peak-hour vehicle exhaust.',
+      'Comparative Route Ranking: Clear, intuitive classification (Recommended, Moderate, Avoid) with comparative travel duration, distance, and average AQI.',
+      'Responsive Clean UI: Built with React, Vite, and Tailwind CSS with dark-mode aesthetic, accessible color-coded severity badges, and fast interactive filtering.',
+    ],
+    tech: [
+      'React 18',
+      'TypeScript',
+      'Vite',
+      'Tailwind CSS',
+      'shadcn/ui',
+      'Radix UI',
+      'Lucide Icons',
+      'React Router',
+      'TanStack Query',
+    ],
+    process: [
+      {
+        title: 'Problem Framing & Lucknow Air Quality Mapping',
+        body: 'Analyzed Central Pollution Control Board (CPCB) monitoring stations and geographic pollution hotspots across Lucknow, mapping baseline AQI variances between residential parklands and industrial transit corridors.',
+      },
+      {
+        title: 'Routing & Health Scoring Algorithm',
+        body: 'Engineered a multi-factor mathematical scoring function weighing route distance and duration against pollutant exposure factors including traffic congestion, metro construction dust, and green corridor waypoints.',
+      },
+      {
+        title: 'Interactive UI & Route Comparison Matrix',
+        body: 'Built responsive route finder and zone inspection interfaces using React 18, TypeScript, and shadcn/ui primitives, allowing instant waypoint swapping and side-by-side metric comparisons.',
+      },
+      {
+        title: 'Error State Resilience & Edge Cases',
+        body: 'Handled boundary conditions including identical origin-destination selections, unselected drop-downs, and simulated network delays with accessible feedback states.',
+      },
+    ],
+    challenges: [
+      'Designing an intuitive Health Score metric that balances travel delay against pollutant exposure without confusing users with complex atmospheric equations.',
+      'Simulating realistic urban travel routes across distinct Lucknow micro-zones while maintaining sub-second client-side calculation latency.',
+      'Presenting environmental risk data clearly through accessible color-coding (Good, Moderate, Unhealthy, Severe) without causing cognitive overload during rapid commute decisions.',
+    ],
+    architectureOverview:
+      'The Healthy Path operates as a high-performance single-page application built on React 18 and Vite, featuring a client-side routing and pollution evaluation engine that delivers sub-second health-optimized recommendations.',
+    architectureLayers: [
+      {
+        layer: 'Presentation Layer',
+        technologies: 'React 18, Vite, Tailwind CSS, shadcn/ui, Radix UI',
+        description:
+          'Accessible dark-mode interface featuring interactive route input controls, color-coded AQI severity badges, and animated comparison cards.',
+      },
+      {
+        layer: 'State & Routing Engine',
+        technologies: 'React Hooks, React Router DOM, TanStack Query',
+        description:
+          'Manages route generation states, origin/destination selections, and real-time zone sorting without unnecessary component re-renders.',
+      },
+      {
+        layer: 'Pollution & Health Scoring Model',
+        technologies: 'TypeScript Simulation Engine',
+        description:
+          'Mathematical evaluation function computing weighted health scores based on distance, duration, average AQI, and corridor-specific risk factors.',
+      },
+      {
+        layer: 'Geospatial & Zone Data Model',
+        technologies: 'Curated Lucknow Geospatial Dataset',
+        description:
+          'Catalog of 12+ strategic Lucknow locations mapped to CPCB-aligned baseline AQI levels, coordinate pairs, and environmental severity zones.',
+      },
+    ],
+    learnings: [
+      'Health-focused UX requires transparent scoring: Users trust environmental recommendations when the trade-off (e.g. 10 extra minutes for 60% lower pollution exposure) is visualized clearly.',
+      'Microclimate variances within a single city (Lucknow) can create dramatic air quality differences between parkways and arterial corridors only a few kilometers apart.',
+      'Lightweight client-side simulation models in TypeScript provide instantaneous feedback and high responsiveness for civic tech hackathon prototypes.',
+    ],
+    accent: 'cyan',
+    artwork: 'waves',
+    image: '/images/projects/the-healthy-path-hero.jpg',
+    imageAlt:
+      'The Healthy Path - Lucknow Clean Air Navigator interface displaying air quality metrics, route finder, and city AQI zones',
+    github: 'https://github.com/Sanjeet3065/The-Healthy-Path',
+    live: 'https://the-healthy-path.vercel.app/',
+    gallery: [
+      {
+        src: '/images/projects/the-healthy-path-hero.jpg',
+        alt: 'The Healthy Path Lucknow Clean Air Navigator Live Interface',
+        caption:
+          'The Healthy Path live interface: Hero banner with health statistics, Lucknow Clean Air Navigator route finder, and real-time AQI zone monitor.',
+      },
+      {
+        src: '/images/projects/the-healthy-path-route-comparison.jpg',
+        alt: 'The Healthy Path Route Comparison Matrix & Health Scores',
+        caption:
+          'Route comparison engine: Green Route (Recommended) with 82/100 Health Score vs. high-pollution fastest routes with detailed duration and AQI breakdowns.',
+      },
+    ],
+  },
+  {
+    slug: 'collab',
+    number: '05',
     title: 'Collab',
     category: 'SaaS Platform',
     year: '2025',
@@ -675,7 +788,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'weather-forecast',
-    number: '05',
+    number: '06',
     title: 'Weather Forecast',
     category: 'Web Application',
     year: '2025',
