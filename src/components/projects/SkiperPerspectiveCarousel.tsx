@@ -146,7 +146,9 @@ export function SkiperPerspectiveCarousel({ projects }: SkiperPerspectiveCarouse
                   }`}
                 >
                   {/* Media Visual with 16:9 Aspect Ratio */}
-                  <div className="relative aspect-[16/9] w-full overflow-hidden rounded-t-2xl bg-surface">
+                  <div className={`relative aspect-[16/9] w-full overflow-hidden rounded-t-2xl ${
+                    project.slug === 'weather-application' ? 'bg-[#061626]' : 'bg-surface'
+                  }`}>
                     {project.image ? (
                       <picture>
                         <source
@@ -156,7 +158,9 @@ export function SkiperPerspectiveCarousel({ projects }: SkiperPerspectiveCarouse
                         <img
                           src={project.image}
                           alt={project.imageAlt ?? `${project.title} project preview`}
-                          className="h-full w-full object-cover transition-transform duration-700 ease-editorial group-hover:scale-[1.03]"
+                          className={`h-full w-full transition-transform duration-700 ease-editorial group-hover:scale-[1.03] ${
+                            project.slug === 'weather-application' ? 'object-contain' : 'object-cover'
+                          }`}
                           loading="lazy"
                           decoding="async"
                         />
@@ -174,31 +178,59 @@ export function SkiperPerspectiveCarousel({ projects }: SkiperPerspectiveCarouse
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent opacity-60" />
 
                     {/* Top Floating Badges */}
-                    <div className="absolute inset-x-2.5 top-2.5 z-10 flex items-center justify-between sm:inset-x-3.5 sm:top-3.5">
-                      <span className="rounded-full border border-white/10 bg-ink/75 px-2.5 py-0.5 font-mono text-[8.5px] uppercase tracking-[0.14em] text-paper/90 backdrop-blur-md">
-                        {project.number}
-                      </span>
-                      <span
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-mono text-[8px] uppercase tracking-[0.12em] backdrop-blur-md ${
-                          project.status === 'Completed'
-                            ? 'border-line/20 bg-ink/75 text-paper/85'
-                            : project.status === 'In Development'
-                              ? 'border-accent/35 bg-ink/75 text-accent'
-                              : 'border-line/15 bg-ink/75 text-muted'
-                        }`}
-                      >
+                    {project.slug === 'weather-application' ? (
+                      <div className="absolute right-2.5 top-2.5 sm:right-3.5 sm:top-3.5 z-10 flex flex-col items-end gap-1 pointer-events-none">
+                        <span className="rounded-full border border-white/10 bg-ink/80 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.14em] text-paper/90 backdrop-blur-md">
+                          {project.number}
+                        </span>
                         <span
-                          className={`h-1.5 w-1.5 rounded-full ${
+                          className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 font-mono text-[7.5px] uppercase tracking-[0.12em] backdrop-blur-md ${
                             project.status === 'Completed'
-                              ? 'bg-paper/70'
+                              ? 'border-line/20 bg-ink/80 text-paper/85'
                               : project.status === 'In Development'
-                                ? 'bg-accent shadow-[0_0_8px_rgba(56,189,248,0.8)]'
-                                : 'bg-muted'
+                                ? 'border-accent/35 bg-ink/80 text-accent'
+                                : 'border-line/15 bg-ink/80 text-muted'
                           }`}
-                        />
-                        {project.status}
-                      </span>
-                    </div>
+                        >
+                          <span
+                            className={`h-1 w-1 rounded-full ${
+                              project.status === 'Completed'
+                                ? 'bg-paper/70'
+                                : project.status === 'In Development'
+                                  ? 'bg-accent shadow-[0_0_8px_rgba(56,189,248,0.8)]'
+                                  : 'bg-muted'
+                            }`}
+                          />
+                          {project.status}
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="absolute inset-x-2.5 top-2.5 sm:inset-x-3.5 sm:top-3.5 z-10 flex items-center justify-between pointer-events-none">
+                        <span className="rounded-full border border-white/10 bg-ink/75 px-2.5 py-0.5 font-mono text-[8.5px] uppercase tracking-[0.14em] text-paper/90 backdrop-blur-md">
+                          {project.number}
+                        </span>
+                        <span
+                          className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-mono text-[8px] uppercase tracking-[0.12em] backdrop-blur-md ${
+                            project.status === 'Completed'
+                              ? 'border-line/20 bg-ink/75 text-paper/85'
+                              : project.status === 'In Development'
+                                ? 'border-accent/35 bg-ink/75 text-accent'
+                                : 'border-line/15 bg-ink/75 text-muted'
+                          }`}
+                        >
+                          <span
+                            className={`h-1.5 w-1.5 rounded-full ${
+                              project.status === 'Completed'
+                                ? 'bg-paper/70'
+                                : project.status === 'In Development'
+                                  ? 'bg-accent shadow-[0_0_8px_rgba(56,189,248,0.8)]'
+                                  : 'bg-muted'
+                            }`}
+                          />
+                          {project.status}
+                        </span>
+                      </div>
+                    )}
 
                     {/* Active Overlay CTA on Hover */}
                     {isActive && (

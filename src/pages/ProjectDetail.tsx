@@ -145,7 +145,7 @@ export default function ProjectDetail() {
                 aria-label={`Open ${project.title} live platform`}
                 className="group/hero block relative rounded-2xl overflow-hidden"
               >
-                <div className="aspect-[16/9] sm:aspect-[16/8.2] overflow-hidden rounded-2xl">
+                <div className={`${project.slug === 'weather-application' ? 'aspect-[16/9] bg-[#061626]' : 'aspect-[16/9] sm:aspect-[16/8.2]'} overflow-hidden rounded-2xl`}>
                   {project.image ? (
                     <picture>
                       <source
@@ -155,7 +155,9 @@ export default function ProjectDetail() {
                       <img
                         src={project.image}
                         alt={project.imageAlt ?? `${project.title} project visual`}
-                        className="h-full w-full object-cover transition-transform duration-700 ease-editorial group-hover/hero:scale-[1.025]"
+                        className={`h-full w-full ${
+                          project.slug === 'weather-application' ? 'object-contain' : 'object-cover'
+                        } transition-transform duration-700 ease-editorial group-hover/hero:scale-[1.025]`}
                         loading="eager"
                         decoding="async"
                       />
@@ -177,7 +179,7 @@ export default function ProjectDetail() {
                 </div>
               </a>
             ) : (
-              <div className="aspect-[16/9] sm:aspect-[16/8.2] overflow-hidden rounded-2xl">
+              <div className={`${project.slug === 'weather-application' ? 'aspect-[16/9] bg-[#061626]' : 'aspect-[16/9] sm:aspect-[16/8.2]'} overflow-hidden rounded-2xl`}>
                 {project.image ? (
                   <picture>
                     <source
@@ -187,7 +189,9 @@ export default function ProjectDetail() {
                     <img
                       src={project.image}
                       alt={project.imageAlt ?? `${project.title} project visual`}
-                      className="h-full w-full object-cover"
+                      className={`h-full w-full ${
+                        project.slug === 'weather-application' ? 'object-contain' : 'object-cover'
+                      }`}
                       loading="eager"
                       decoding="async"
                     />

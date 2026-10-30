@@ -87,7 +87,7 @@ export function Projects() {
                       index % 2 === 1 ? 'lg:order-2' : ''
                     } ${project.slug === 'krishi-suraksha' ? 'lg:max-w-[90%] lg:mx-auto' : ''}`}
                   >
-                    <div className="aspect-[16/10] overflow-hidden">
+                    <div className={`overflow-hidden ${project.slug === 'weather-application' ? 'aspect-[16/9] bg-[#061626]' : 'aspect-[16/10]'}`}>
                       <div data-project-media className="h-full w-full will-change-transform">
                         {project.image ? (
                           <picture>
@@ -98,7 +98,9 @@ export function Projects() {
                             <img
                               src={project.image}
                               alt={project.imageAlt ?? `${project.title} project preview`}
-                              className="h-full w-full object-cover transition-transform duration-700 ease-editorial group-hover:scale-[1.035]"
+                              className={`h-full w-full transition-transform duration-700 ease-editorial group-hover:scale-[1.035] ${
+                                project.slug === 'weather-application' ? 'object-contain' : 'object-cover'
+                              }`}
                               loading={index === 0 ? 'eager' : 'lazy'}
                               decoding="async"
                             />
@@ -114,23 +116,43 @@ export function Projects() {
                       </div>
                     </div>
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent opacity-60" />
-                    <div className="absolute inset-x-5 top-5 flex items-center justify-between">
-                      <span className="rounded-full border border-white/10 bg-ink/50 px-3 py-1.5 font-mono text-[9.5px] uppercase tracking-[0.14em] text-paper/70 backdrop-blur-md sm:text-[8.5px] sm:tracking-[0.16em]">
-                        Project / {project.number}
-                      </span>
-                      <span
-                        className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 font-mono text-[9.5px] uppercase tracking-[0.12em] backdrop-blur-md sm:text-[8.5px] sm:tracking-[0.14em] ${
-                          project.status === 'Completed'
-                            ? 'border-line/20 bg-ink/50 text-paper/70'
-                            : project.status === 'In Development'
-                              ? 'border-accent/30 bg-ink/50 text-accent'
-                              : 'border-line/15 bg-ink/50 text-muted'
-                        }`}
-                      >
-                        <span className={`h-1 w-1 rounded-full ${project.status === 'Completed' ? 'bg-paper/60' : project.status === 'In Development' ? 'bg-accent' : 'bg-muted'}`} />
-                        {project.status}
-                      </span>
-                    </div>
+                    {project.slug === 'weather-application' ? (
+                      <div className="absolute right-3 top-3 sm:right-5 sm:top-5 z-10 flex flex-col items-end gap-1.5 pointer-events-none">
+                        <span className="rounded-full border border-white/10 bg-ink/80 px-2.5 py-0.5 font-mono text-[8.5px] uppercase tracking-[0.14em] text-paper/85 backdrop-blur-md sm:px-3 sm:py-1 sm:text-[8.5px] sm:tracking-[0.16em]">
+                          Project / {project.number}
+                        </span>
+                        <span
+                          className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-mono text-[8px] uppercase tracking-[0.12em] backdrop-blur-md sm:px-3 sm:py-1 sm:text-[8.5px] sm:tracking-[0.14em] ${
+                            project.status === 'Completed'
+                              ? 'border-line/20 bg-ink/80 text-paper/85'
+                              : project.status === 'In Development'
+                                ? 'border-accent/30 bg-ink/80 text-accent'
+                                : 'border-line/15 bg-ink/80 text-muted'
+                          }`}
+                        >
+                          <span className={`h-1 w-1 rounded-full ${project.status === 'Completed' ? 'bg-paper/60' : project.status === 'In Development' ? 'bg-accent' : 'bg-muted'}`} />
+                          {project.status}
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="absolute inset-x-3.5 top-3.5 sm:inset-x-5 sm:top-5 flex items-center justify-between">
+                        <span className="rounded-full border border-white/10 bg-ink/75 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-paper/85 backdrop-blur-md sm:px-3 sm:py-1.5 sm:text-[8.5px] sm:tracking-[0.16em]">
+                          Project / {project.number}
+                        </span>
+                        <span
+                          className={`inline-flex items-center gap-1.5 sm:gap-2 rounded-full border px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.12em] backdrop-blur-md sm:px-3 sm:py-1.5 sm:text-[8.5px] sm:tracking-[0.14em] ${
+                            project.status === 'Completed'
+                              ? 'border-line/20 bg-ink/75 text-paper/85'
+                              : project.status === 'In Development'
+                                ? 'border-accent/30 bg-ink/75 text-accent'
+                                : 'border-line/15 bg-ink/75 text-muted'
+                          }`}
+                        >
+                          <span className={`h-1 w-1 rounded-full ${project.status === 'Completed' ? 'bg-paper/60' : project.status === 'In Development' ? 'bg-accent' : 'bg-muted'}`} />
+                          {project.status}
+                        </span>
+                      </div>
+                    )}
                   </Link>
 
                   <div className={index % 2 === 1 ? 'lg:order-1 lg:pr-4' : 'lg:pl-4'}>
