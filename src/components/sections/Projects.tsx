@@ -22,7 +22,7 @@ const STATUS_STYLES: Record<ProjectStatus, string> = {
 export function Projects() {
   const sectionRef = useRef<HTMLElement>(null)
   const reduced = useReducedMotion()
-  const featuredProjects = projects.slice(0, 4)
+  const featuredProjects = projects.slice(0, 3)
 
   useEffect(() => {
     if (reduced) return
