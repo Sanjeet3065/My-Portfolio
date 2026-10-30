@@ -174,7 +174,7 @@ export function SkiperPerspectiveCarousel({ projects }: SkiperPerspectiveCarouse
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent opacity-60" />
 
                     {/* Top Floating Badges */}
-                    <div className="absolute inset-x-3.5 top-3.5 flex items-center justify-between">
+                    <div className="absolute inset-x-2.5 top-2.5 z-10 flex items-center justify-between sm:inset-x-3.5 sm:top-3.5">
                       <span className="rounded-full border border-white/10 bg-ink/75 px-2.5 py-0.5 font-mono text-[8.5px] uppercase tracking-[0.14em] text-paper/90 backdrop-blur-md">
                         {project.number}
                       </span>
